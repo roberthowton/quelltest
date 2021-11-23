@@ -7,11 +7,12 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "npm run server & npm run client"
+    "dev": "npm run server & npm run client & redis-server --daemonize yes"
   },
   "author": "Brad Traversy",
   "license": "MIT",
   "dependencies": {
+    "@quell/server": "^2.2.1",
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
