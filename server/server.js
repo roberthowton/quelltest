@@ -1,9 +1,7 @@
 const path = require('path');
 const express = require('express');
-const { graphqlHTTP } = require('express-graphql');
 const app = express();
-// const QuellCache = require('../quell/quell-server/src/quell');
-const QuellCache = require('@quell/server');
+const QuellCache = require('../quell/quell-server/src/quell');
 
 const PORT = 3000;
 
@@ -21,11 +19,6 @@ app.listen(PORT, () => {
 
 const quellCache = new QuellCache(schema, REDIS_PORT);
 
-// app.use('/graphql', graphqlHTTP({
-//   schema: schema,
-//   graphiql: true
-// }))
-
 app.use(express.json());
 
 app.use('/graphql', quellCache.query, (req, res) => {
@@ -36,25 +29,25 @@ app.get('/clearCache', quellCache.clearCache, (req, res) => {
   return res.status(200).send('Redis cache successfully cleared');
 });
 
-app.get('/', starWarsController.getCharacters, (req, res) =>
-  res.status(200).json(res.locals.characters)
-);
+// app.get('/', starWarsController.getCharacters, (req, res) =>
+//   res.status(200).json(res.locals.characters)
+// );
 
-app.get('/species', starWarsController.getSpecies, (req, res) =>
-  res.status(200).json(res.locals.species)
-);
+// app.get('/species', starWarsController.getSpecies, (req, res) =>
+//   res.status(200).json(res.locals.species)
+// );
 
-app.get('/homeworld', starWarsController.getHomeworld, (req, res) =>
-  res.status(200).json(res.locals.homeworld)
-);
+// app.get('/homeworld', starWarsController.getHomeworld, (req, res) =>
+//   res.status(200).json(res.locals.homeworld)
+// );
 
-app.get('/film', starWarsController.getFilm, (req, res) =>
-  res.status(200).json(res.locals.filmData)
-);
+// app.get('/film', starWarsController.getFilm, (req, res) =>
+//   res.status(200).json(res.locals.filmData)
+// );
 
-app.post('/character', starWarsController.addCharacter, (req, res) =>
-  res.status(200).json({})
-);
+// app.post('/character', starWarsController.addCharacter, (req, res) =>
+//   res.status(200).json({})
+// );
 
 app.use((req, res) =>
   res.status(404).send("This is not the page you're looking for...")
