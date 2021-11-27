@@ -28,3 +28,13 @@
   grid-gap: 0.5rem;
   grid-template-columns: 50% 50%; 
 }
+
+#editor {
+  border: 1px solid black;
+}
+
+.CodeMirror {
+  height: 200px;
+  width: 98%;
+  border: 1px solid black;
+}

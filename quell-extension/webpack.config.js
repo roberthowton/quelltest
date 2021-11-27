@@ -15,7 +15,7 @@ module.exports = {
     clean: true,
   },
   devServer: {
-    port: 3000,
+    port: 3030,
     static: {
       directory: path.join(__dirname, 'src', 'pages', 'Panel'),
     }
@@ -30,7 +30,7 @@ module.exports = {
         }
       },
       {
-        test: /\.scss$/,
+        test: /\.(css|scss)$/,
         use: [
           'style-loader',
           'css-loader',
