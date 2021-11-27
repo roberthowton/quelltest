@@ -20,8 +20,10 @@ app.listen(PORT, () => {
 const quellCache = new QuellCache(schema, REDIS_PORT);
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use('/graphql', quellCache.query, (req, res) => {
+  console.log('request: ', req.body);
   return res.status(200).send(res.locals.queryResponse);
 });
 
