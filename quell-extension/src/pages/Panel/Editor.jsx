@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
-require('codemirror/mode/javascript/javascript');
 
 const Editor = (props) => {
 

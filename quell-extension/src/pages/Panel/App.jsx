@@ -11,12 +11,12 @@ const App = () => {
   // saving state to see if operating on client side or server side
   // 'true' for client-side and 'false' for server-side...
   const [dataOrigin, setOrigin] = useState(true);
-  const [graphqlQuery, setGraphqlQuery] = useState('defaultQuery');
+  // queried data results
   const [results, setResults] = useState('');
-
-  const queriedText = (results) = {
-    setResults(results)
-  }
+  
+  const queriedText = results => {
+    setResults(results);
+  };
 
   return (
     <div className="panel">
@@ -37,7 +37,6 @@ const App = () => {
           <Stats />
         </div>
       </div>
-
     </div>
   );
 };
