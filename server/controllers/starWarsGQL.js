@@ -38,10 +38,10 @@ const RootQueryType = new GraphQLObjectType({
       type: PersonType,
       description: 'A Single Person',
       args: {
-        id: { type: GraphQLString },
+        id: { type: GraphQLString }
       },
       resolve: async (parent, args) => {
-        const result = await Person.findById(args.id);
+        const result = await Person.findOne(args.id);
         return result;
       },
     },

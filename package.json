@@ -1,0 +1,49 @@
+{
+  "name": "quelltest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "client": "NODE_ENV=development webpack-dev-server --open --hot",
+    "dev": "export NODE_ENV=development; redis-server --daemonize yes & nodemon server/server.js & webpack-dev-server --open --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roberthowton/quelltest.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roberthowton/quelltest/issues"
+  },
+  "homepage": "https://github.com/roberthowton/quelltest#readme",
+  "dependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/plugin-transform-runtime": "^7.16.4",
+    "@babel/preset-env": "^7.16.4",
+    "@babel/preset-react": "^7.16.0",
+    "@babel/runtime": "^7.16.3",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "css-loader": "^6.5.1",
+    "file-loader": "^6.2.0",
+    "graphiql": "^1.5.7",
+    "html": "^1.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "sass-loader": "^12.3.0",
+    "style-loader": "^3.3.1",
+    "transform-runtime": "^0.0.0",
+    "webpack": "^5.64.4",
+    "webpack-cli": "^4.9.1",
+    "webpack-dev-server": "^4.6.0",
+    "webpack-plugin": "^1.0.5"
+  },
+  "devDependencies": {
+    "mini-css-extract-plugin": "^2.4.5",
+    "node-sass": "^6.0.1"
+  }
+}
