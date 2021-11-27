@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
-require('codemirror/mode/javascript/javascript');
 
+const Editor = (props) => {
 
-const Output = (props) => {
-  const results = props.results;
+  const[defaultText, setText] = useState("Enter GraphQL query here\n\n\n\n");
   
   return(
     <CodeMirror
-      value={results}
+      value={defaultText}
       options={{
         lineNumbers: true,
         lint:true,
@@ -18,9 +17,11 @@ const Output = (props) => {
       onBeforeChange={(editor, data, value) => {
         setText({value}); console.log(value);
       }}
-
+      onChange={(editor, data, value) => {
+        props.queriedText(value);
+      }}
     />
   );
 };
 
-export default Output;
+export default Editor;
