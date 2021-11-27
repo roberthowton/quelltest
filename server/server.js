@@ -10,7 +10,6 @@ const PORT = 3000;
 // 2. run `npm run server-redis` in this directory
 const REDIS_PORT = 6379;
 
-const starWarsController = require('./controllers/starWarsController');
 const schema = require('./controllers/starWarsGQL');
 
 app.listen(PORT, () => {
@@ -30,26 +29,6 @@ app.use('/graphql', quellCache.query, (req, res) => {
 app.get('/clearCache', quellCache.clearCache, (req, res) => {
   return res.status(200).send('Redis cache successfully cleared');
 });
-
-// app.get('/', starWarsController.getCharacters, (req, res) =>
-//   res.status(200).json(res.locals.characters)
-// );
-
-// app.get('/species', starWarsController.getSpecies, (req, res) =>
-//   res.status(200).json(res.locals.species)
-// );
-
-// app.get('/homeworld', starWarsController.getHomeworld, (req, res) =>
-//   res.status(200).json(res.locals.homeworld)
-// );
-
-// app.get('/film', starWarsController.getFilm, (req, res) =>
-//   res.status(200).json(res.locals.filmData)
-// );
-
-// app.post('/character', starWarsController.addCharacter, (req, res) =>
-//   res.status(200).json({})
-// );
 
 app.use((req, res) =>
   res.status(404).send("This is not the page you're looking for...")
