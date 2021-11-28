@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 // Components for extension
-import Client from './Client/Client.jsx';
+import Client from './Input/Client.jsx';
 import Output from './Output/Output.jsx';
-import Server from './Server/Server.jsx';
+import Server from './Input/Server.jsx';
 import Stats from './Stats/Stats.jsx';
 import Management from './Management/Management.jsx';
-import Editor from './Editor.jsx';
+import Editor from './Input/Editor.jsx';
+// Material UI
+import Button from '@mui/material/Button';
 
 const App = () => {
   // saving state to see if operating on client side or server side
   // 'true' for client-side and 'false' for server-side...
-  const [dataOrigin, setOrigin] = useState(true);
+  const [dataOrigin, setOrigin] = useState(false);
   // queried data results
   const [results, setResults] = useState('');
   
@@ -20,12 +22,12 @@ const App = () => {
 
   return (
     <div className="panel">
-      <button id="client-side" onClick={() => setOrigin(true)}>Client</button>
-      <button id="server-side" onClick={() => setOrigin(false)}>Server</button>
+      <Button mode='dark' id="client-side" onClick={() => setOrigin(true)}>Client</Button>
+      <Button mode='dark' id="server-side" onClick={() => setOrigin(false)}>Server</Button>
       <div className="main_container">
         <div className="query_input segmented_wrapper">
           <div>Queries</div>
-          <Editor queriedText={queriedText}/> 
+          <div><Editor queriedText={queriedText}/></div> 
           {dataOrigin ? <Client /> : <Server />}
           <Management />
         </div>
