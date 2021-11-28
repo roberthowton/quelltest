@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Settings from './Settings.jsx';
+import Settings from './Settings';
 import Button from '@mui/material/Button';
 
 const Management = (props) => {

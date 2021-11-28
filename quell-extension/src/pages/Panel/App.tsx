@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 // Components for extension
-import Client from './Input/Client.jsx';
-import Output from './Output/Output.jsx';
-import Server from './Input/Server.jsx';
-import Stats from './Stats/Stats.jsx';
-import Management from './Management/Management.jsx';
-import Editor from './Input/Editor.jsx';
+import Client from './Input/Client';
+import Output from './Output/Output';
+import Server from './Input/Server';
+import Stats from './Stats/Stats';
+import Management from './Management/Management';
+import Editor from './Input/Editor';
+import styles from './App.scss';
 // Material UI
 import Button from '@mui/material/Button';
 
