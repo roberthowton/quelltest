@@ -1,8 +1,7 @@
 require('file-loader?name=[name].[ext]!./index.html');
-import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App.jsx';
-import styles from './App.scss';
+import App from './App';
+import './global.scss';
 import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 

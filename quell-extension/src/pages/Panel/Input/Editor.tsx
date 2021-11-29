@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
 import 'codemirror/theme/material.css';
+import 'codemirror'
 
 const Editor = (props) => {
 
@@ -9,7 +10,6 @@ const Editor = (props) => {
 
   return(
     <CodeMirror
-      id='thing'
       value={defaultText}
       options={{
         theme: 'material',
