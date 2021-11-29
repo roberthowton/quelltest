@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 const App = () => {
   // saving state to see if operating on client side or server side
   // 'true' for client-side and 'false' for server-side...
-  const [dataOrigin, setOrigin] = useState(false);
+  const [dataOrigin, setOrigin] = useState(true);
   // queried data results
   const [results, setResults] = useState('');
   
