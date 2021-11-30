@@ -2,14 +2,9 @@ require('file-loader?name=[name].[ext]!./index.html');
 import ReactDOM from 'react-dom';
 import App from './App';
 import './global.scss';
-import { ThemeProvider, createTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
-const theme = createTheme({
-  palette: {
-    type: 'dark',
-  }
-});
+import theme from './theme';
 
 ReactDOM.render(
   <ThemeProvider theme={theme}>
