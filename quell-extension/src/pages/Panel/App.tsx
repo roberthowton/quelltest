@@ -42,7 +42,6 @@ const App = () => {
       .then(response => response.json())
       .then(data => {
         const schema = buildClientSchema(data.data)
-        console.log(schema)
         setSchema(schema);
       })
       .catch(err => console.log(err));
