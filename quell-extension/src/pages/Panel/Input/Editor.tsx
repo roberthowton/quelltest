@@ -12,9 +12,11 @@ import { validateSchema } from 'webpack';
 import Button from '@mui/material/Button';
 
 const Editor = (props) => {
-  const [defaultText, setText] = useState('# Enter GraphQL query here\n\n\n\n');
+  const [defaultText, setText] = useState('# Enter GraphQL query here\n');
+  const [queryTimes, setQueryTimes] = useState([0]);
 
   const handleClickSubmit = () => {
+    let startT = performance.now();
     const query = props.queryString;
     const address = `${props.serverAddress}${props.graphQLRoute}`;
     fetch(address, {
@@ -31,6 +33,7 @@ const Editor = (props) => {
     })
       .then(response => response.json())
       .then(data => props.setResults(data))
+      .then(() => props.logNewTime(performance.now()-startT))
       .catch(err => props.setResults(err));
   }
 
@@ -38,7 +41,7 @@ const Editor = (props) => {
     <React.Fragment>
       <CodeMirror
         value={defaultText}
-        options={{
+        options={{ 
           theme: 'material',
           lineNumbers: true,
           mode: 'graphql',
