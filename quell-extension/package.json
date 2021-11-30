@@ -11,9 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@mui/icons-material": "^5.2.0",
     "json-beautify": "^1.1.1",
     "react": "^17.0.1",
-    "react-dom": "^17.0.1"
+    "react-dom": "^17.0.1",
+    "url-loader": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.13",
