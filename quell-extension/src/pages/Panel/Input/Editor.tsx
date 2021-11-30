@@ -6,7 +6,7 @@ import 'codemirror';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/hint/show-hint';
 import 'codemirror-graphql/lint';
-// import 'codemirror-graphql/hint';
+import 'codemirror-graphql/hint';
 import 'codemirror-graphql/mode';
 import { validateSchema } from 'webpack';
 import Button from '@mui/material/Button';
@@ -42,10 +42,9 @@ const Editor = (props) => {
           theme: 'material',
           lineNumbers: true,
           mode: 'graphql',
-          // lint: {
-          //   schema: props.schema,
-          // },
-          lint: false,
+          lint: {
+            schema: props.schema,
+          },
           hintOptions: {
             schema: props.schema,
           },
