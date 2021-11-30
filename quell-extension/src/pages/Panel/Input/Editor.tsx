@@ -31,6 +31,7 @@ const Editor = (props) => {
               variables: null
             })
     })
+<<<<<<< HEAD
       .then(response => {
         queryTime-=performance.now();
         response.json();
@@ -41,6 +42,11 @@ const Editor = (props) => {
         props.setResults(data);
       })
       .catch(err => console.log(err));
+=======
+      .then(response => response.json())
+      .then(data => props.setResults(data))
+      .catch(err => props.setResults(err));
+>>>>>>> b6a5bd7d7404cebd4aabaab95ffe1d767f184f01
   }
 
   return (
