@@ -35,6 +35,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+      },
+      {
         test: /\.(js|ts)x?$/,
         exclude: /node_modules/,
         use: {
