@@ -30,11 +30,8 @@ const Editor = (props) => {
             })
     })
       .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        props.setResults(data);
-      })
-      .catch(err => console.log(err));
+      .then(data => props.setResults(data))
+      .catch(err => props.setResults(err));
   }
 
   return (

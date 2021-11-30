@@ -10,7 +10,7 @@ const Output = ({results}) => {
   useEffect(() => {
     if (Object.keys(results).length > 0) {
       console.log(results);
-      setOutput(beautify(results, null, 2, 100));
+      setOutput(beautify(results, null, 2, 80));
     }
   }, [results])
 
