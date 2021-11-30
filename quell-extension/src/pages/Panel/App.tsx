@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Client from './Input/Client';
 import Output from './Output/Output';
 import Server from './Input/Server';
-import Stats from './Stats/Stats';
+import Metrics from './Metrics/Metrics';
 import Management from './Management/Management';
 import Editor from './Input/Editor';
 import styles from './App.scss';
@@ -37,7 +37,7 @@ const App = () => {
           <Output results={results}/>
         </div>
         <div className="query_stats segmented_wrapper">
-          <Stats />
+          <Metrics fetchTime={'289.40 ms'} cacheStatus={'Yes'} cacheClearStatus={'No'} fetchTimeInt = {[0, 1, 4, 5]} />
         </div>
       </div>
     </div>
