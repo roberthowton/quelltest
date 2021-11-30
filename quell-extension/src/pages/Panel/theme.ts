@@ -4,7 +4,7 @@ const themeOptions: ThemeOptions = {
   palette: {
     type: 'dark',
     primary: {
-      main: '#3f51b5',
+      main: '#7CD1E9',
       contrastText: "#fff"
     },
     secondary: {

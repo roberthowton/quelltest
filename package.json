@@ -29,11 +29,8 @@
     "clean-webpack-plugin": "^4.0.0",
     "css-loader": "^6.5.1",
     "file-loader": "^6.2.0",
-<<<<<<< HEAD
     "graphiql": "^1.5.7",
-=======
     "graphql": "^16.0.1",
->>>>>>> 7cd0dea94b0e39c9c0f9a79f48b5df4b92b8d9cd
     "html": "^1.0.0",
     "html-webpack-plugin": "^5.5.0",
     "parse": "^3.4.0",
