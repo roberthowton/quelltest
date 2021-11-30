@@ -9,6 +9,8 @@ import Editor from './Input/Editor';
 import styles from './App.scss';
 // Material UI
 import Button from '@mui/material/Button';
+// GraphQL
+import { getIntrospectionQuery, buildClientSchema } from 'graphql';
 
 const App = () => {
   // saving state to see if operating on client side or server side
@@ -22,9 +24,29 @@ const App = () => {
   const [clientAddress, setClientAddress] = useState('http://localhost:8080')
   const [serverAddress, setServerAddress] = useState('http://localhost:3000')
 
-  // const queriedText = results => {
-  //   setResults(results);
-  // };
+  useEffect(() => {
+    const introspectionQuery = getIntrospectionQuery();
+    const address = `${serverAddress}${graphQLRoute}`;
+    fetch(address, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+              query: introspectionQuery,
+              operationName: 'IntrospectionQuery',
+              variables: null
+            })
+    })
+      .then(response => response.json())
+      .then(data => {
+        const schema = buildClientSchema(data.data)
+        console.log(schema)
+        setSchema(schema);
+      })
+      .catch(err => console.log(err));
+  }, [clientAddress, serverAddress, graphQLRoute])
 
   return (
     <div className="panel">
