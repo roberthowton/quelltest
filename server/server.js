@@ -1,5 +1,6 @@
 const path = require('path');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const QuellCache = require('../quell/quell-server/src/quell');
 
@@ -12,16 +13,15 @@ const REDIS_PORT = 6379;
 
 const schema = require('./controllers/starWarsGQL');
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port: ${PORT}...`);
-});
+app.use(cors());
 
 const quellCache = new QuellCache(schema, REDIS_PORT);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/graphql', quellCache.query, (req, res) => {
+app.options('/graphql', cors())
+app.use('/graphql', cors(), quellCache.query, (req, res) => {
   console.log('request: ', req.body);
   return res.status(200).send(res.locals.queryResponse);
 });
@@ -31,7 +31,11 @@ app.get('/clearCache', quellCache.clearCache, (req, res) => {
 });
 
 app.use((req, res) =>
-  res.status(404).send("This is not the page you're looking for...")
+res.status(404).send("This is not the page you're looking for...")
 );
+
+app.listen(PORT, () => {
+  console.log(`Server listening on port: ${PORT}...`);
+});
 
 module.exports = app;

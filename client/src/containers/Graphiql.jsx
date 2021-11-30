@@ -30,11 +30,11 @@ const Graphiql = () => {
     people: 'Person'
   };
 
-  const qfetcher = async ({ query } = graphQLParams) => {
-    console.log({query})
+  const qfetcher = async (graphQLParams) => {
+    console.log(graphQLParams);
     const results = await Quellify(
       '/graphql',
-      query,
+      graphQLParams.query,
       mutationMap,
       map,
       queryTypeMap
