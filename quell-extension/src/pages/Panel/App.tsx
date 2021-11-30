@@ -15,26 +15,46 @@ const App = () => {
   // 'true' for client-side and 'false' for server-side...
   const [dataOrigin, setOrigin] = useState(false);
   // queried data results
-  const [results, setResults] = useState('');
-  
-  const queriedText = results => {
-    setResults(results);
-  };
+  const [results, setResults] = useState({});
+  const [schema, setSchema] = useState({});
+  const [queryString, setQueryString] = useState('');
+  const [graphQLRoute, setGraphQLRoute] = useState('/graphQL');
+  const [clientAddress, setClientAddress] = useState('http://localhost:8080')
+  const [serverAddress, setServerAddress] = useState('http://localhost:3000')
+
+  // const queriedText = results => {
+  //   setResults(results);
+  // };
 
   return (
     <div className="panel">
-      <Button mode='dark' id="client-side" onClick={() => setOrigin(true)}>Client</Button>
-      <Button mode='dark' id="server-side" onClick={() => setOrigin(false)}>Server</Button>
+      <Button mode="dark" id="client-side" onClick={() => setOrigin(true)}>
+        Client
+      </Button>
+      <Button mode="dark" id="server-side" onClick={() => setOrigin(false)}>
+        Server
+      </Button>
       <div className="main_container">
         <div className="query_input segmented_wrapper">
           <div>Queries</div>
-          <div><Editor queriedText={queriedText}/></div> 
-          {dataOrigin ? <Client /> : <Server />}
+          <div>
+            <Editor
+              clientAddress={clientAddress}
+              serverAddress={serverAddress}
+              graphQLRoute={graphQLRoute}
+              setGraphQLRoute={setGraphQLRoute}
+              queryString={queryString}
+              setQueryString={setQueryString}
+              setResults={setResults}
+              schema={schema}
+            />
+          </div>
+          {/* {dataOrigin ? <Client /> : <Server />} */}
           <Management />
         </div>
         <div className="query_output segmented_wrapper">
           <div>Queried Results</div>
-          <Output results={results}/>
+          <Output results={results} />
         </div>
         <div className="query_stats segmented_wrapper">
           <Stats />
