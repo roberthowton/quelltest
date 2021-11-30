@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Client from './Input/Client';
 import Output from './Output/Output';
 import Server from './Input/Server';
-import Stats from './Stats/Stats';
+import Metrics from './Metrics/Metrics';
 import Management from './Management/Management';
 import Editor from './Input/Editor';
 import styles from './App.scss';
@@ -15,7 +15,7 @@ import { getIntrospectionQuery, buildClientSchema } from 'graphql';
 const App = () => {
   // saving state to see if operating on client side or server side
   // 'true' for client-side and 'false' for server-side...
-  const [dataOrigin, setOrigin] = useState(false);
+  const [dataOrigin, setOrigin] = useState(true);
   // queried data results
   const [results, setResults] = useState({});
   const [schema, setSchema] = useState({});
@@ -23,6 +23,11 @@ const App = () => {
   const [graphQLRoute, setGraphQLRoute] = useState('/graphQL');
   const [clientAddress, setClientAddress] = useState('http://localhost:8080')
   const [serverAddress, setServerAddress] = useState('http://localhost:3000')
+  const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
+
+  const logNewTime = (recordedTime:number) => {
+    setQueryResponseTime(queryResponseTime.concat(Number(recordedTime.toFixed(2))));
+  }
 
   useEffect(() => {
     const introspectionQuery = getIntrospectionQuery();
@@ -61,6 +66,7 @@ const App = () => {
           <div>Queries</div>
           <div>
             <Editor
+              logNewTime={logNewTime}
               clientAddress={clientAddress}
               serverAddress={serverAddress}
               graphQLRoute={graphQLRoute}
@@ -79,7 +85,7 @@ const App = () => {
           <Output results={results} />
         </div>
         <div className="query_stats segmented_wrapper">
-          <Stats />
+          <Metrics fetchTime={queryResponseTime[queryResponseTime.length-1]} cacheStatus={'Yes'} cacheClearStatus={'No'} fetchTimeInt = {queryResponseTime} />
         </div>
       </div>
     </div>
