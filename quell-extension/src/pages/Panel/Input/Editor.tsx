@@ -13,10 +13,12 @@ import Button from '@mui/material/Button';
 
 const Editor = (props) => {
   const [defaultText, setText] = useState('# Enter GraphQL query here\n\n\n\n');
+  let queryTime;
 
   const handleClickSubmit = () => {
     const query = props.queryString;
     const address = `${props.serverAddress}${props.graphQLRoute}`;
+    queryTime = performance.now();
     fetch(address, {
       method: 'POST',
       headers: {
@@ -29,9 +31,13 @@ const Editor = (props) => {
               variables: null
             })
     })
-      .then(response => response.json())
+      .then(response => {
+        queryTime-=performance.now();
+        response.json();
+      })
       .then(data => {
         console.log(data);
+        console.log({time:queryTime});
         props.setResults(data);
       })
       .catch(err => console.log(err));
