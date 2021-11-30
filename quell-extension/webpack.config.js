@@ -20,6 +20,16 @@ module.exports = {
     port: 3030,
     static: {
       directory: path.join(__dirname, 'src', 'pages', 'Panel'),
+    },
+    proxy: {
+      '/graphql' : {
+        target: 'http://localhost:3000',
+        secure: false
+      },
+      '/clearCache': {
+        target: 'http://localhost:3000',
+        secure: false
+      }
     }
   },
   module: {

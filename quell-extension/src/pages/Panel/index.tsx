@@ -2,10 +2,10 @@ require('file-loader?name=[name].[ext]!./index.html');
 import ReactDOM from 'react-dom';
 import App from './App';
 import './global.scss';
-import { ThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider, createTheme } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: 'dark',
   }
