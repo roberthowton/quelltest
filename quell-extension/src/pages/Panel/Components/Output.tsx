@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
+import 'codemirror/theme/material-darker.css';
+import 'codemirror/theme/xq-light.css';
 import beautify from 'json-beautify';
 
 const Output = ({results}) => {
@@ -20,7 +21,7 @@ const Output = ({results}) => {
       value={output}
       height='auto'
       options={{
-        theme: 'material',
+        theme: 'material-darker',
         lineNumbers: false,
         mode:'json'
       }}  

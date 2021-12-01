@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 // Components for extension
 import Client from './Input/Client';
-import Output from './Output/Output';
+import Output from './Components/Output';
 import Server from './Input/Server';
-import Metrics from './Metrics/Metrics';
+import Metrics from './Components/Metrics';
 import Management from './Management/Management';
-import Editor from './Input/Editor';
+import Editor from './Components/Editor';
 import styles from './App.scss';
 // Material UI
 import Button from '@mui/material/Button';
@@ -19,10 +19,11 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ThemeProvider } from '@emotion/react';
 import theme from './theme';
-import Logo from './assets/quell-logo-horiz.png';
+import Logo from './assets/Quell_full_size.png';
 
 // GraphQL
 import { getIntrospectionQuery, buildClientSchema } from 'graphql';
+import Settings from './Components/Settings';
 
 const App = () => {
   // controls active tab
@@ -34,6 +35,8 @@ const App = () => {
   const [graphQLRoute, setGraphQLRoute] = useState('/graphQL');
   const [clientAddress, setClientAddress] = useState('http://localhost:8080');
   const [serverAddress, setServerAddress] = useState('http://localhost:3000');
+  const [redisAddress, setRedisAddress] = useState('http://localhost:6379');
+  const [clearCacheRoute, setClearCacheRoute] = useState('/clearCache');
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
 
   const logNewTime = (recordedTime: number) => {
@@ -90,11 +93,12 @@ const App = () => {
                 clientAddress={clientAddress}
                 serverAddress={serverAddress}
                 graphQLRoute={graphQLRoute}
-                setGraphQLRoute={setGraphQLRoute}
                 queryString={queryString}
                 setQueryString={setQueryString}
                 setResults={setResults}
                 schema={schema}
+                logNewTime={logNewTime}
+                clearCacheRoute={clearCacheRoute}
               />
             </div>
             <div className="query_output segmented_wrapper">
@@ -112,74 +116,27 @@ const App = () => {
             </div>
           </div>
         </TabPanel>
-
-        {/* <div className="query_input segmented_wrapper">
-            <Accordion disableGutters={true}>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                id="query-accordion"
-              >
-                <Typography>Query</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Editor
-                  clientAddress={clientAddress}
-                  serverAddress={serverAddress}
-                  graphQLRoute={graphQLRoute}
-                  setGraphQLRoute={setGraphQLRoute}
-                  queryString={queryString}
-                  setQueryString={setQueryString}
-                  setResults={setResults}
-                  schema={schema}
-                />
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                id="cache-accordion"
-              >
-                <Typography>Cache</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Button>View Cache</Button>
-                <Button>Clear Cache</Button>
-              </AccordionDetails>
-            </Accordion>
-            <Accordion>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                id="settings-accordion"
-              >
-                <Typography>Settings</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <TextField
-                  id="outlined-basic"
-                  label="GraphQL Endpoint"
-                  variant="filled"
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="Server Address"
-                  variant="filled"
-                />
-                <TextField
-                  id="outlined-basic"
-                  label="Client Address"
-                  variant="filled"
-                />
-              </AccordionDetails>
-            </Accordion>
-          </div>
-          <div className="query_output segmented_wrapper">
-            <Box px={2}>
-              <Output results={results} />
-            </Box>
-          </div>
-          <div className="query_stats segmented_wrapper">
-            <Metrics fetchTime={queryResponseTime[queryResponseTime.length-1]} cacheStatus={'Yes'} cacheClearStatus={'No'} fetchTimeInt = {queryResponseTime} />
-          </div> */}
+        <TabPanel value={activeTab} index={1}>
+        </TabPanel>
+        <TabPanel value={activeTab} index={2}>
+          Cache
+        </TabPanel>
+        <TabPanel value={activeTab} index={3}>
+          <Settings 
+            graphQLRoute={graphQLRoute}
+            setGraphQLRoute={setGraphQLRoute}
+            clientAddress={clientAddress}
+            setClientAddress={setClientAddress}
+            serverAddress={serverAddress}
+            setServerAddress={setServerAddress}
+            redisAddress={redisAddress}
+            setRedisAddress={setRedisAddress}
+            schema={schema}
+            setSchema={setSchema}
+            clearCacheRoute={clearCacheRoute}
+            setClearCacheRoute={setClearCacheRoute}
+          />
+        </TabPanel>
       </div>
     </ThemeProvider>
   );

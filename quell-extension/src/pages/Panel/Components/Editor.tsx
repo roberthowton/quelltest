@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
+import 'codemirror/theme/material-darker.css';
+import 'codemirror/theme/xq-light.css';
 import 'codemirror';
 import 'codemirror/addon/lint/lint';
 import 'codemirror/addon/hint/show-hint';
@@ -37,12 +38,19 @@ const Editor = (props) => {
       .catch(err => props.setResults(err));
   }
 
+  const handleClearCache = () => {
+    const address=`${props.serverAddress}${props.clearCacheRoute}`
+    fetch(address)
+      .then(data => console.log(data))
+      .catch(err => console.log(err));
+  }
+
   return (
     <React.Fragment>
       <CodeMirror
         value={defaultText}
         options={{ 
-          theme: 'material',
+          theme: 'material-darker',
           lineNumbers: true,
           mode: 'graphql',
           lint: {
@@ -60,8 +68,9 @@ const Editor = (props) => {
           props.setQueryString(value);
         }}
       />
-      <div>
+      <div style={{display: 'flex', justifyContent: 'space-between'}}>
         <Button onClick={handleClickSubmit}>Submit Query</Button>
+        <Button onClick={handleClearCache}>Clear Cache</Button>
       </div>
     </React.Fragment>
   );
