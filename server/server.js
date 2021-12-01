@@ -26,7 +26,8 @@ app.use('/graphql', cors(), quellCache.query, (req, res) => {
   return res.status(200).send(res.locals.queryResponse);
 });
 
-app.get('/clearCache', quellCache.clearCache, (req, res) => {
+app.options('/clearCache', cors()) 
+app.get('/clearCache', cors(), quellCache.clearCache, (req, res) => {
   return res.status(200).send('Redis cache successfully cleared');
 });
 
