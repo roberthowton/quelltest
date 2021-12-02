@@ -11,6 +11,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@devexpress/dx-react-chart": "^2.7.6",
+    "@devexpress/dx-react-chart-material-ui": "^2.7.6",
+    "@devexpress/dx-react-core": "^2.7.6",
+    "@devexpress/dx-react-grid": "^2.7.6",
+    "@devexpress/dx-react-grid-material-ui": "^2.7.6",
+    "@material/data-table": "^13.0.0",
+    "@mui/styles": "^5.2.2",
+    "anychart-react": "^1.4.1",
     "json-beautify": "^1.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
