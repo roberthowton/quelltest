@@ -20,7 +20,7 @@ const quellCache = new QuellCache(schema, REDIS_PORT);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.options('/graphql', cors())
+app.options('/graphql', cors()) 
 app.use('/graphql', cors(), quellCache.query, (req, res) => {
   console.log('request: ', req.body);
   return res.status(200).send(res.locals.queryResponse);
@@ -32,7 +32,8 @@ app.use('/redis', cors(), quellCache.memStats, (req, res) => {
 })
 
 
-app.get('/clearCache', quellCache.clearCache, (req, res) => {
+app.options('/clearCache', cors()) 
+app.get('/clearCache', cors(), quellCache.clearCache, (req, res) => {
   return res.status(200).send('Redis cache successfully cleared');
 });
 

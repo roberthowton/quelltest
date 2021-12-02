@@ -1,28 +1,49 @@
 import React, { useState, useEffect, useRef } from 'react';
 // Components for extension
 import Client from './Input/Client';
-import Output from './Output/Output';
+import Output from './Components/Output';
 import Server from './Input/Server';
-import Stats from './Stats/Stats';
+import Metrics from './Components/Metrics';
 import Management from './Management/Management';
-import Editor from './Input/Editor';
+import Editor from './Components/Editor';
 import styles from './App.scss';
 // Material UI
 import Button from '@mui/material/Button';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import Box from '@mui/material/Box';
+import { Tabs, Tab } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { ThemeProvider } from '@emotion/react';
+import theme from './theme';
+import Logo from './assets/Quell_full_size.png';
+
 // GraphQL
 import { getIntrospectionQuery, buildClientSchema } from 'graphql';
+import Settings from './Components/Settings';
 
 const App = () => {
-  // saving state to see if operating on client side or server side
-  // 'true' for client-side and 'false' for server-side...
-  const [dataOrigin, setOrigin] = useState(false);
+  // controls active tab
+  const [activeTab, setActiveTab] = useState(0);
   // queried data results
   const [results, setResults] = useState({});
   const [schema, setSchema] = useState({});
   const [queryString, setQueryString] = useState('');
   const [graphQLRoute, setGraphQLRoute] = useState('/graphQL');
-  const [clientAddress, setClientAddress] = useState('http://localhost:8080')
-  const [serverAddress, setServerAddress] = useState('http://localhost:3000')
+  const [clientAddress, setClientAddress] = useState('http://localhost:8080');
+  const [serverAddress, setServerAddress] = useState('http://localhost:3000');
+  const [redisAddress, setRedisAddress] = useState('http://localhost:6379');
+  const [clearCacheRoute, setClearCacheRoute] = useState('/clearCache');
+  const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
+
+  const logNewTime = (recordedTime: number) => {
+    setQueryResponseTime(
+      queryResponseTime.concat(Number(recordedTime.toFixed(2)))
+    );
+  };
 
   useEffect(() => {
     const introspectionQuery = getIntrospectionQuery();
@@ -31,57 +52,107 @@ const App = () => {
       method: 'POST',
       headers: {
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-              query: introspectionQuery,
-              operationName: 'IntrospectionQuery',
-              variables: null
-            })
+        query: introspectionQuery,
+        operationName: 'IntrospectionQuery',
+        variables: null,
+      }),
     })
-      .then(response => response.json())
-      .then(data => {
-        const schema = buildClientSchema(data.data)
-        console.log(schema)
+      .then((response) => response.json())
+      .then((data) => {
+        const schema = buildClientSchema(data.data);
         setSchema(schema);
       })
-      .catch(err => console.log(err));
-  }, [clientAddress, serverAddress, graphQLRoute])
+      .catch((err) => console.log(err));
+  }, [clientAddress, serverAddress, graphQLRoute]);
+
+  const handleTabChange = (event, clickedTab) => {
+    setActiveTab(clickedTab);
+  };
 
   return (
-    <div className="panel">
-      <Button mode="dark" id="client-side" onClick={() => setOrigin(true)}>
-        Client
-      </Button>
-      <Button mode="dark" id="server-side" onClick={() => setOrigin(false)}>
-        Server
-      </Button>
-      <div className="main_container">
-        <div className="query_input segmented_wrapper">
-          <div>Queries</div>
-          <div>
-            <Editor
-              clientAddress={clientAddress}
-              serverAddress={serverAddress}
-              graphQLRoute={graphQLRoute}
-              setGraphQLRoute={setGraphQLRoute}
-              queryString={queryString}
-              setQueryString={setQueryString}
-              setResults={setResults}
-              schema={schema}
-            />
+    <ThemeProvider theme={theme}>
+      <div className="panel">
+        <Box id="navbar">
+          <div id="logo">
+            <img id="logo-img" src={Logo} alt="quell logo" />
           </div>
-          {/* {dataOrigin ? <Client /> : <Server />} */}
-          <Management />
-        </div>
-        <div className="query_output segmented_wrapper">
-          <div>Queried Results</div>
-          <Output results={results} />
-        </div>
-        <div className="query_stats segmented_wrapper">
-          <Stats />
-        </div>
+          <Tabs centered={true} value={activeTab} onChange={handleTabChange}>
+            <Tab label="Query" />
+            <Tab label="Network" />
+            <Tab label="Cache" />
+            <Tab label="Settings" />
+          </Tabs>
+        </Box>
+        <TabPanel value={activeTab} index={0}>
+          <div className="main_container">
+            <div className="query_input segmented_wrapper">
+              <Editor
+                clientAddress={clientAddress}
+                serverAddress={serverAddress}
+                graphQLRoute={graphQLRoute}
+                queryString={queryString}
+                setQueryString={setQueryString}
+                setResults={setResults}
+                schema={schema}
+                logNewTime={logNewTime}
+                clearCacheRoute={clearCacheRoute}
+              />
+            </div>
+            <div className="query_output segmented_wrapper">
+              <Box px={2}>
+                <Output results={results} />
+              </Box>
+            </div>
+            <div className="query_stats segmented_wrapper">
+              <Metrics
+                fetchTime={queryResponseTime[queryResponseTime.length - 1]}
+                cacheStatus={'Yes'}
+                cacheClearStatus={'No'}
+                fetchTimeInt={queryResponseTime}
+              />
+            </div>
+          </div>
+        </TabPanel>
+        <TabPanel value={activeTab} index={1}>
+        </TabPanel>
+        <TabPanel value={activeTab} index={2}>
+          Cache
+        </TabPanel>
+        <TabPanel value={activeTab} index={3}>
+          <Settings 
+            graphQLRoute={graphQLRoute}
+            setGraphQLRoute={setGraphQLRoute}
+            clientAddress={clientAddress}
+            setClientAddress={setClientAddress}
+            serverAddress={serverAddress}
+            setServerAddress={setServerAddress}
+            redisAddress={redisAddress}
+            setRedisAddress={setRedisAddress}
+            schema={schema}
+            setSchema={setSchema}
+            clearCacheRoute={clearCacheRoute}
+            setClearCacheRoute={setClearCacheRoute}
+          />
+        </TabPanel>
       </div>
+    </ThemeProvider>
+  );
+};
+
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      {...other}
+    >
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };

@@ -3,7 +3,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: {    
+  entry: {
     background: './src/pages/Background/index.tsx',
     devtools: './src/pages/Devtools/index.tsx',
     panel: '/src/pages/Panel/index.tsx',
@@ -22,24 +22,34 @@ module.exports = {
       directory: path.join(__dirname, 'src', 'pages', 'Panel'),
     },
     proxy: {
-      '/graphql' : {
+      '/graphql': {
         target: 'http://localhost:3000',
-        secure: false
+        secure: false,
       },
       '/clearCache': {
         target: 'http://localhost:3000',
-        secure: false
-      }
-    }
+        secure: false,
+      },
+    },
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
+      },
       {
         test: /\.(js|ts)x?$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-        }
+        },
+      },
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
       },
       {
         test: /\.(css|scss)$/,
@@ -48,9 +58,15 @@ module.exports = {
           'css-modules-typescript-loader',
           'css-loader',
           'sass-loader',
-        ]
+        ],
+      },
+      {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+        }
       }
-    ]
+    ],
   },
   plugins: [
     new CopyWebpackPlugin({

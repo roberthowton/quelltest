@@ -30,10 +30,16 @@
     "css-loader": "^6.5.1",
     "file-loader": "^6.2.0",
     "graphiql": "^1.5.7",
+<<<<<<< HEAD
+=======
+    "graphql": "^16.0.1",
+>>>>>>> main
     "html": "^1.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "parse": "^3.4.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "redis": "^4.0.0",
     "sass-loader": "^12.3.0",
     "style-loader": "^3.3.1",
     "transform-runtime": "^0.0.0",
@@ -43,6 +49,8 @@
     "webpack-plugin": "^1.0.5"
   },
   "devDependencies": {
+    "@graphiql/toolkit": "^0.4.2",
+    "graphiql": "^1.5.7",
     "mini-css-extract-plugin": "^2.4.5",
     "node-sass": "^6.0.1"
   }
