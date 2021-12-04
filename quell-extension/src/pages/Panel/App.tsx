@@ -34,22 +34,24 @@ const App = () => {
   // queried data results
   const [results, setResults] = useState({});
   const [schema, setSchema] = useState({});
-  const [queryString, setQueryString] = useState('');
-  const [graphQLRoute, setGraphQLRoute] = useState('/graphQL');
-  const [clientAddress, setClientAddress] = useState('http://localhost:8080');
-  const [serverAddress, setServerAddress] = useState('http://localhost:3000');
-  const [redisAddress, setRedisAddress] = useState('http://localhost:6379');
-  const [clearCacheRoute, setClearCacheRoute] = useState('/clearCache');
+  const [queryString, setQueryString] = useState<string>('');
+  const [graphQLRoute, setGraphQLRoute] = useState<string>('/graphQL');
+  const [clientAddress, setClientAddress] = useState<string>('http://localhost:8080');
+  const [serverAddress, setServerAddress] = useState<string>('http://localhost:3000');
+  const [redisAddress, setRedisAddress] = useState<string>('http://localhost:6379');
+  const [clearCacheRoute, setClearCacheRoute] = useState<string>('/clearCache');
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
+  const [clientRequests, addClientRequests] = useState(data);
   // changes tab - defaults to query
   const [tabName, setActiveTab] = useState<string>('query');
 
   const handleTabChange = (clickedTab:string) => {
     setActiveTab(clickedTab);
+    console.log('clicked',clickedTab);
   };
 
   // grabbing the time to query results and rounding to two digits
-  const logNewTime = (recordedTime: number) => {
+  const logNewTime = (recordedTime:number) => {
     setQueryResponseTime(
       queryResponseTime.concat(Number(recordedTime.toFixed(2)))
     );

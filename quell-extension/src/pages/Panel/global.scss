@@ -77,6 +77,7 @@ http {
 }
 
 #metrics-container {
+  height: 335px;
   width: 75vw;
   display: flex;
   flex-direction: column;
@@ -97,6 +98,10 @@ http {
   border: none;
   font-weight: bold;
   margin-left: 10px;
+}
+
+.navbutton:hover {
+  background-color: #444;
 }
 
 #logo-img {
@@ -161,4 +166,31 @@ input:hover {
   &::-webkit-scrollbar {
     display: none;
   }
+}
+
+.networkTab {
+  padding-left: 10px
+}
+
+#network-page-container {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap: 5px
+}
+
+table {
+  border: 1px solid #999;
+  padding: -10px;
+  min-height: 300px;
+  min-width: 100% ;
+}
+
+th {
+  border: 1px solid #999;
+  background-color: #989898;
+  max-height: 1rem;
+}
+
+td {
+
 }
