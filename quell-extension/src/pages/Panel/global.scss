@@ -81,7 +81,7 @@ h6 {
 }
 
 .query_output .CodeMirror {
-  height: 370px;
+  height: 335px;
   // max-height: 370px;
   width: calc(100% - 0px);
 }
@@ -94,8 +94,18 @@ h6 {
 }
 
 #metrics-container {
+  height: 335px;
   width: 75vw;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+#speed-graph {
+  min-height: 200px;
+}
+
+#network-page-container {
+  display: flex;
+  justify-content: space-around;
 }

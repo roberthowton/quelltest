@@ -26,6 +26,9 @@ import Logo from './assets/Quell_full_size.png';
 import { getIntrospectionQuery, buildClientSchema } from 'graphql';
 import Settings from './Components/Settings';
 
+// Sample clientRequest data for building Network component
+import data from './data/sampleClientRequests';
+
 const App = () => {
   // controls active tab
   const [activeTab, setActiveTab] = useState(0);
@@ -39,6 +42,23 @@ const App = () => {
   const [redisAddress, setRedisAddress] = useState('http://localhost:6379');
   const [clearCacheRoute, setClearCacheRoute] = useState('/clearCache');
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
+  const [clientRequests, addClientRequests] = useState(data);
+
+  // useEffect(() => {
+  //   chrome.devtools.network.onRequestFinished.addListener(function (request) {
+  //     if (request.request.url === `${clientAddress}${graphQLRoute.toLowerCase()}`) {
+  //       // addClientRequests((prev) => {
+  //       //   [...prev].concat([request])
+  //       // })
+  //       addClientRequests(prev => prev.concat([request]));
+  //       // chrome.devtools.inspectedWindow.eval(
+  //       //   'console.log("GraphQL request: " + unescape("' +
+  //       //     escape(request.request.url) +
+  //       //     '"))'
+  //       // )
+  //     }
+  //   });
+  // }, []);
 
   const logNewTime = (recordedTime: number) => {
     setQueryResponseTime(
@@ -118,7 +138,11 @@ const App = () => {
           </div>
         </TabPanel>
         <TabPanel value={activeTab} index={1}>
-          <Network />
+          <Network
+            graphQLRoute={graphQLRoute}
+            clientAddress={clientAddress}
+            clientRequests={clientRequests}
+          />
         </TabPanel>
         <TabPanel value={activeTab} index={2}>
           Cache
