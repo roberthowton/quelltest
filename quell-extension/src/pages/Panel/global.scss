@@ -104,3 +104,8 @@ h6 {
 #speed-graph {
   min-height: 200px;
 }
+
+#network-page-container {
+  display: flex;
+  justify-content: space-around;
+}

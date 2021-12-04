@@ -26,6 +26,9 @@ import Logo from './assets/Quell_full_size.png';
 import { getIntrospectionQuery, buildClientSchema } from 'graphql';
 import Settings from './Components/Settings';
 
+// Sample clientRequest data for building Network component
+import data from './data/sampleClientRequests';
+
 const App = () => {
   // controls active tab
   const [activeTab, setActiveTab] = useState(0);
@@ -39,7 +42,7 @@ const App = () => {
   const [redisAddress, setRedisAddress] = useState('http://localhost:6379');
   const [clearCacheRoute, setClearCacheRoute] = useState('/clearCache');
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
-  const [clientRequests, addClientRequests] = useState([{name: 'one'}, {name: 'two'}, {name: 'three'}]);
+  const [clientRequests, addClientRequests] = useState(data);
 
   // useEffect(() => {
   //   chrome.devtools.network.onRequestFinished.addListener(function (request) {

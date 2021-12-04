@@ -1,62 +1,131 @@
-import React, { useState, useEffect } from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import React, { useState, useEffect, useMemo, cloneElement } from 'react';
+import { useRowState, useTable } from 'react-table';
 import beautify from 'json-beautify';
-import { Controlled as CodeMirror } from 'react-codemirror2';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material-darker.css';
-import 'codemirror/theme/xq-light.css';
+import Metrics from './Metrics';
 
 const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
-  const requests = [];
-  
-  return(
-          <div>
-            {clientRequests.map((value, index) => <NetworkRequest key={index} value={value} index={index} />)}
-          </div>
-        )
-  
-//   useEffect(() => {
-//     console.log('CRs: ', clientRequests)
+  // useEffect(() => {
+  //   console.log('CRs: ', clientRequests)
      
-//     console.log('requests: ', requests)
-//   }, [clientRequests]);
-  
-  // return (
-  //   <div id="network-page">
-  //     <Typography variant="h6" align="center">
-  //       Client-Side Quell Requests
-  //     </Typography>
-  //     {clientRequests.forEach((req, i) => {
-  //   <NetworkRequest id={i} reqNum={req} />
-  // })}
-  //     <br/> Client Requests: {clientRequests.length}
-  //   </div>
-  // );
+  //   console.log('requests: ', requests)
+  // }, [clientRequests]);
+
+  return(
+        <React.Fragment>
+          <h2>Client Quell Requests</h2>
+          <div id="network-page-container">
+            <div id="network-request-table">
+              <NetworkRequestTable clientRequests={clientRequests}/>
+              {/* <TableTest /> */}
+            </div>
+            <div id="network-request-metrics">
+              <Metrics 
+                fetchTime={clientRequests[clientRequests.length - 1].time.toFixed(2)}
+                fetchTimeInt={clientRequests.map(request => request.time)}
+              />
+            </div>
+          </div>
+        </React.Fragment>
+        )
 };
 
 const NetworkRequest = (props) => {
 
-  const { index, value } = props;
+  const { index, req } = props;
 
   return (
-
-    // <p id={index}>Name: {value.name} </p>
-
-    <Accordion>
-      <AccordionSummary>
-        Request {index}
-      </AccordionSummary>
-      <AccordionDetails>
-        Name: {value.name}
-      </AccordionDetails>
-    </Accordion>
+    <details>
+      <summary>{index + 1}. {req.request.url}</summary>
+      <p>Test</p>
+    </details>
   )
 
 }
 
+const NetworkRequestTable = ({ clientRequests } = props) => {
+  
+  const columns = useMemo(
+    () => [
+      {
+        id: 'query-type',
+        Header: 'Query Type',
+        accessor: row => Object.keys(JSON.parse(row.request.postData.text))
+      },
+      {
+        id: 'url',
+        Header: 'URL',
+        accessor: row => row.request.url
+      },
+      {
+        id: 'status',
+        Header: 'Status',
+        accessor: row => row.response.status
+      },
+      {
+        id: 'size',
+        Header: 'Size (kB)',
+        accessor: row => (row.response.content.size / 1000).toFixed(2)
+      },
+      {
+        id: 'time',
+        Header: 'Time (ms)',
+        accessor: row => row.time.toFixed(2)
+      }
+    ],
+    [])
+
+    const data = useMemo(
+      () => [...clientRequests],
+      [])
+
+      const {
+        getTableProps,
+        getTableBodyProps,
+        headerGroups,
+        rows,
+        prepareRow
+      } = useTable({ columns, data })
+
+  return (
+    <>
+    <p>Total Client Requests: {clientRequests.length}</p>
+    {/* <div>
+     {clientRequests.map((req, index) => <NetworkRequest key={index} req={req} index={index} />)}
+   </div> */}
+
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th {...column.getHeaderProps()}>
+                {column.render('Header')}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map(row => {
+          prepareRow(row)
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return (
+                  <td {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
+                )
+              })}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+
+
+   </>
+  )
+}
 
 export default Network;
