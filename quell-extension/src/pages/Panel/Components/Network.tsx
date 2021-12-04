@@ -88,7 +88,7 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
 
   return (
     <>
-    <p>Total Client Requests: {clientRequests.length}</p>
+    <h3>Total Client Requests: {clientRequests.length}</h3>
     {/* <div>
      {clientRequests.map((req, index) => <NetworkRequest key={index} req={req} index={index} />)}
    </div> */}

@@ -69,8 +69,8 @@ const Editor = (props) => {
         }}
       />
       <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        <Button onClick={handleClickSubmit}>Submit Query</Button>
-        <Button onClick={handleClearCache}>Clear Cache</Button>
+        <button className="editorButtons" onClick={handleClickSubmit}>Submit Query</button>
+        <button className="editorButtons" onClick={handleClearCache}>Clear Cache</button>
       </div>
     </React.Fragment>
   );
