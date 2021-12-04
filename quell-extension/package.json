@@ -11,18 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-<<<<<<< HEAD
-    "@devexpress/dx-react-chart": "^2.7.6",
-    "@devexpress/dx-react-chart-material-ui": "^2.7.6",
-    "@devexpress/dx-react-core": "^2.7.6",
-    "@devexpress/dx-react-grid": "^2.7.6",
-    "@devexpress/dx-react-grid-material-ui": "^2.7.6",
-    "@material/data-table": "^13.0.0",
-    "@mui/styles": "^5.2.2",
-    "anychart-react": "^1.4.1",
-=======
     "@mui/icons-material": "^5.2.0",
->>>>>>> main
     "json-beautify": "^1.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
@@ -47,9 +36,11 @@
     "css-loader": "^5.0.1",
     "css-modules-typescript-loader": "^4.0.1",
     "file-loader": "^6.2.0",
+    "fs": "^0.0.1-security",
     "graphql": "^16.0.1",
     "html-webpack-plugin": "^5.5.0",
     "react-codemirror2": "^6.0.1",
+    "react-table": "^7.7.0",
     "react-trend": "^1.2.5",
     "sass": "^1.32.6",
     "sass-loader": "^10.1.1",

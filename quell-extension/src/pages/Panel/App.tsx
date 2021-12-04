@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import * as fs from 'fs';
 // Components for extension
 import Client from './Input/Client';
 import Output from './Components/Output';
@@ -9,26 +10,27 @@ import Editor from './Components/Editor';
 import Network from './Components/Network';
 import styles from './App.scss';
 // Material UI
-import Button from '@mui/material/Button';
+/* import Button from '@mui/material/Button';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Box from '@mui/material/Box';
-import { Tabs, Tab } from '@mui/material';
+import { Tabs, Tab, getContainerUtilityClass } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ThemeProvider } from '@emotion/react';
-import theme from './theme';
+import theme from './theme'; */
 import Logo from './assets/Quell_full_size.png';
 
 // GraphQL
 import { getIntrospectionQuery, buildClientSchema } from 'graphql';
 import Settings from './Components/Settings';
 
+// Sample clientRequest data for building Network component
+import data from './data/sampleClientRequests';
+
 const App = () => {
-  // controls active tab
-  const [activeTab, setActiveTab] = useState(0);
   // queried data results
   const [results, setResults] = useState({});
   const [schema, setSchema] = useState({});
@@ -39,13 +41,21 @@ const App = () => {
   const [redisAddress, setRedisAddress] = useState('http://localhost:6379');
   const [clearCacheRoute, setClearCacheRoute] = useState('/clearCache');
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
+  // changes tab - defaults to query
+  const [tabName, setActiveTab] = useState<string>('query');
 
+  const handleTabChange = (clickedTab:string) => {
+    setActiveTab(clickedTab);
+  };
+
+  // grabbing the time to query results and rounding to two digits
   const logNewTime = (recordedTime: number) => {
     setQueryResponseTime(
       queryResponseTime.concat(Number(recordedTime.toFixed(2)))
     );
   };
 
+  // 
   useEffect(() => {
     const introspectionQuery = getIntrospectionQuery();
     const address = `${serverAddress}${graphQLRoute}`;
@@ -69,27 +79,47 @@ const App = () => {
       .catch((err) => console.log(err));
   }, [clientAddress, serverAddress, graphQLRoute]);
 
-  const handleTabChange = (event, clickedTab) => {
-    setActiveTab(clickedTab);
-  };
-
   return (
-    <ThemeProvider theme={theme}>
-      <div className="panel">
-        <Box id="navbar">
-          <div id="logo">
-            <img id="logo-img" src={Logo} alt="quell logo" />
-          </div>
-          <Tabs centered={true} value={activeTab} onChange={handleTabChange}>
-            <Tab label="Query" />
-            <Tab label="Network" />
-            <Tab label="Cache" />
-            <Tab label="Settings" />
-          </Tabs>
-        </Box>
-        <TabPanel value={activeTab} index={0}>
-          <div className="main_container">
-            <div className="query_input segmented_wrapper">
+    <div className="devtools">
+      <div id="navbar">
+        <img id="logo-img" src={Logo} alt="quell logo" />
+
+        <button 
+          id="queryButton" 
+          className="navbutton"
+          style={tabName==='query' ? {backgroundColor:"#333"} : {}} 
+          onClick={() => handleTabChange('query')}>
+          Query
+        </button>
+        
+        <button 
+          id="networkButton" 
+          className="navbutton" 
+          style={tabName==='network' ? {backgroundColor:"#333"} : {}} 
+          onClick={() => handleTabChange('network')}>
+          Network
+        </button>
+        
+        <button 
+          id="cacheButton" 
+          className="navbutton" 
+          style={tabName==='cache' ? {backgroundColor:"#333"} : {}} 
+          onClick={() => handleTabChange('cache')}>
+          Cache
+        </button>
+
+        <button 
+          id="settingsButton" 
+          className="navbutton" 
+          style={tabName==='settings' ? {backgroundColor:"#333"} : {}} 
+          onClick={() => handleTabChange('settings')}>
+          Settings
+        </button>
+
+      </div>
+        {tabName === 'query' && 
+          <div className="queryTab">
+            <span className='queryInput resizable'>
               <Editor
                 clientAddress={clientAddress}
                 serverAddress={serverAddress}
@@ -101,60 +131,57 @@ const App = () => {
                 logNewTime={logNewTime}
                 clearCacheRoute={clearCacheRoute}
               />
-            </div>
-            <div className="query_output segmented_wrapper">
-              <Box px={2}>
-                <Output results={results} />
-              </Box>
-            </div>
-            <div className="query_stats segmented_wrapper">
+            </span>
+          
+            <span className='queryResult resizable'>
+              <Output results={results} />
+            </span>
+
+            <span className='metricsOutput resizable'>
               <Metrics
                 fetchTime={queryResponseTime[queryResponseTime.length - 1]}
                 cacheStatus={'Yes'}
                 cacheClearStatus={'No'}
                 fetchTimeInt={queryResponseTime}
               />
-            </div>
+            </span>
           </div>
-        </TabPanel>
-        <TabPanel value={activeTab} index={1}>
-          <Network />
-        </TabPanel>
-        <TabPanel value={activeTab} index={2}>
-          Cache
-        </TabPanel>
-        <TabPanel value={activeTab} index={3}>
-          <Settings 
-            graphQLRoute={graphQLRoute}
-            setGraphQLRoute={setGraphQLRoute}
-            clientAddress={clientAddress}
-            setClientAddress={setClientAddress}
-            serverAddress={serverAddress}
-            setServerAddress={setServerAddress}
-            redisAddress={redisAddress}
-            setRedisAddress={setRedisAddress}
-            schema={schema}
-            setSchema={setSchema}
-            clearCacheRoute={clearCacheRoute}
-            setClearCacheRoute={setClearCacheRoute}
-          />
-        </TabPanel>
-      </div>
-    </ThemeProvider>
-  );
-};
+        }
+        
+        {tabName === 'network' && 
+          <div className="networkTab">
+            <Network
+              graphQLRoute={graphQLRoute}
+              clientAddress={clientAddress}
+              clientRequests={clientRequests}
+            />
+          </div>
+        }
 
-const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
+        {tabName === 'cache' && 
+          <div className="cacheTab">
+            <div>cache</div>
+          </div>
+        }
 
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`tabpanel-${index}`}
-      {...other}
-    >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+        {tabName === 'settings' &&  
+          <div className="settingsTab">
+            <Settings 
+              graphQLRoute={graphQLRoute}
+              setGraphQLRoute={setGraphQLRoute}
+              clientAddress={clientAddress}
+              setClientAddress={setClientAddress}
+              serverAddress={serverAddress}
+              setServerAddress={setServerAddress}
+              redisAddress={redisAddress}
+              setRedisAddress={setRedisAddress}
+              schema={schema}
+              setSchema={setSchema}
+              clearCacheRoute={clearCacheRoute}
+              setClearCacheRoute={setClearCacheRoute}
+            />
+          </div>
+        }
     </div>
   );
 };
