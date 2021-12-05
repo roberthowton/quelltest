@@ -9,19 +9,8 @@ import Management from './Management/Management';
 import Editor from './Components/Editor';
 import Network from './Components/Network';
 import styles from './App.scss';
-// Material UI
-/* import Button from '@mui/material/Button';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import Box from '@mui/material/Box';
-import { Tabs, Tab, getContainerUtilityClass } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ThemeProvider } from '@emotion/react';
-import theme from './theme'; */
 import Logo from './assets/Quell_full_size.png';
+import SplitPane from 'react-split-pane';
 
 // GraphQL
 import { getIntrospectionQuery, buildClientSchema } from 'graphql';
@@ -117,73 +106,77 @@ const App = () => {
           onClick={() => handleTabChange('settings')}>
           Settings
         </button>
-
       </div>
-        {tabName === 'query' && 
-          <div className="queryTab">
-            <span className='queryInput resizable'>
-              <Editor
-                clientAddress={clientAddress}
-                serverAddress={serverAddress}
-                graphQLRoute={graphQLRoute}
-                queryString={queryString}
-                setQueryString={setQueryString}
-                setResults={setResults}
-                schema={schema}
-                logNewTime={logNewTime}
-                clearCacheRoute={clearCacheRoute}
-              />
-            </span>
-          
-            <span className='queryResult resizable'>
-              <Output results={results} />
-            </span>
 
-            <span className='metricsOutput resizable'>
-              <Metrics
-                fetchTime={queryResponseTime[queryResponseTime.length - 1]}
-                cacheStatus={'Yes'}
-                cacheClearStatus={'No'}
-                fetchTimeInt={queryResponseTime}
-              />
-            </span>
+      {tabName === 'query' && 
+        <div className="queryTab">
+          <div id='queryLeft'>
+            <SplitPane style={{maxWidth:'75%'}} split="vertical" minSize={80} defaultSize={300}>
+                <div className='queryInput resizable'>
+                  <Editor
+                    clientAddress={clientAddress}
+                    serverAddress={serverAddress}
+                    graphQLRoute={graphQLRoute}
+                    queryString={queryString}
+                    setQueryString={setQueryString}
+                    setResults={setResults}
+                    schema={schema}
+                    logNewTime={logNewTime}
+                    clearCacheRoute={clearCacheRoute}
+                  />
+                </div>
+              
+                <div className='queryResult resizable'>
+                  <Output results={results} />
+                </div> 
+            </SplitPane>
           </div>
-        }
+          <div id='metricsOutput'>
+            <Metrics
+              fetchTime={queryResponseTime[queryResponseTime.length - 1]}
+              cacheStatus={'Yes'}
+              cacheClearStatus={'No'}
+              fetchTimeInt={queryResponseTime}
+            />
+          </div>
+        </div>
+      }
         
-        {tabName === 'network' && 
-          <div className="networkTab">
-            <Network
-              graphQLRoute={graphQLRoute}
-              clientAddress={clientAddress}
-              clientRequests={clientRequests}
-            />
-          </div>
-        }
+      {tabName === 'network' && 
+        <div className="networkTab">
+          <Network
+            graphQLRoute={graphQLRoute}
+            clientAddress={clientAddress}
+            clientRequests={clientRequests}
+          />
+        </div>
+      }
 
-        {tabName === 'cache' && 
-          <div className="cacheTab">
-            <div>cache</div>
-          </div>
-        }
+      {tabName === 'cache' && 
+        <div className="cacheTab">
+          <div>cache</div>
+        </div>
+      }
 
-        {tabName === 'settings' &&  
-          <div className="settingsTab">
-            <Settings 
-              graphQLRoute={graphQLRoute}
-              setGraphQLRoute={setGraphQLRoute}
-              clientAddress={clientAddress}
-              setClientAddress={setClientAddress}
-              serverAddress={serverAddress}
-              setServerAddress={setServerAddress}
-              redisAddress={redisAddress}
-              setRedisAddress={setRedisAddress}
-              schema={schema}
-              setSchema={setSchema}
-              clearCacheRoute={clearCacheRoute}
-              setClearCacheRoute={setClearCacheRoute}
-            />
-          </div>
-        }
+      {tabName === 'settings' &&  
+        <div className="settingsTab">
+          <Settings 
+            graphQLRoute={graphQLRoute}
+            setGraphQLRoute={setGraphQLRoute}
+            clientAddress={clientAddress}
+            setClientAddress={setClientAddress}
+            serverAddress={serverAddress}
+            setServerAddress={setServerAddress}
+            redisAddress={redisAddress}
+            setRedisAddress={setRedisAddress}
+            schema={schema}
+            setSchema={setSchema}
+            clearCacheRoute={clearCacheRoute}
+            setClearCacheRoute={setClearCacheRoute}
+          />
+        </div>
+      }
+
     </div>
   );
 };
