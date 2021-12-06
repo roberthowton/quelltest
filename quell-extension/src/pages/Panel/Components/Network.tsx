@@ -4,11 +4,20 @@ import beautify from 'json-beautify';
 import Metrics from './Metrics';
 
 const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
-  // useEffect(() => {
-  //   console.log('CRs: ', clientRequests)
+  const [clickedRowData, setClickedRowData] = useState({})
+
+  // const handleRowClick = () => {
+  //   const {request.headers, response.headers} = cell.row.original
+
+  //   setClickedRowData(cell.row.original);
+
+  // }
+
+
+  useEffect(() => {
+    console.log('CRs: ', clientRequests)
      
-  //   console.log('requests: ', requests)
-  // }, [clientRequests]);
+  }, [clientRequests]);
 
   return(
         <React.Fragment>
@@ -112,7 +121,10 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
-                  <td {...cell.getCellProps()}>
+                  <td 
+                    {...cell.getCellProps()}
+                    onClick={() => console.log(`row clicked! row data: `, cell.row.original)}
+                  >
                     {cell.render('Cell')}
                   </td>
                 )
