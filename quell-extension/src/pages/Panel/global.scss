@@ -173,13 +173,16 @@ table {
   border: 1px solid #999;
   padding: -10px;
   min-height: 300px;
-  min-width: 100% ;
 }
 
 th {
   border: 1px solid #999;
   background-color: #989898;
   max-height: 1rem;
+}
+
+tr:hover {
+  background-color: green;
 }
 
 .Resizer {
@@ -231,4 +234,18 @@ th {
 }
 .Resizer.disabled:hover {
   border-color: transparent;
+}
+
+#dataTable_container {
+  display: flex;
+  flex-direction: column;
+}
+
+#headerBox {
+  max-height: 300px;
+  max-width: 50%;
+  border: 1px solid #999;
+  overflow: scroll;
+  background-color: #111;
+  padding: 0 10px 0 10px;
 }
