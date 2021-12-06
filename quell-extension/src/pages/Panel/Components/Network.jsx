@@ -46,7 +46,7 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
   
   const columns = useMemo(
     () => [
-      {
+      { // maybe instead of query type, use `graphql-tag` to display name of queried table/document
         id: 'query-type',
         Header: 'Query Type',
         accessor: row => Object.keys(JSON.parse(row.request.postData.text))

@@ -22,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.options('/graphql', cors()) 
 app.use('/graphql', cors(), quellCache.query, (req, res) => {
-  console.log('request: ', req);
+  console.log('request: ', req.originalUrl);
   return res.status(200).send(res.locals.queryResponse);
 });
 
