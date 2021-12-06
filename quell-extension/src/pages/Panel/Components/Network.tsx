@@ -2,56 +2,62 @@ import React, { useState, useEffect, useMemo, cloneElement } from 'react';
 import { useRowState, useTable } from 'react-table';
 import beautify from 'json-beautify';
 import Metrics from './Metrics';
+import SplitPane from 'react-split-pane';
 
 const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
-  const [clickedRowData, setClickedRowData] = useState({})
+  const [clickedRowData, setClickedRowData] = useState(clientRequests[0])
+  
+  const [activeRow, setActiveRow] = useState<number>(-1);
+ 
 
-  // const handleRowClick = () => {
-  //   const {request.headers, response.headers} = cell.row.original
-
-  //   setClickedRowData(cell.row.original);
-
-  // }
 
 
   useEffect(() => {
     console.log('CRs: ', clientRequests)
+    console.log('Clicked Row Data: ', clickedRowData)
      
-  }, [clientRequests]);
+  }, [clientRequests, clickedRowData]);
 
   return(
         <React.Fragment>
-          <div style={{fontSize:'1.25rem', fontWeight:'bolder'}}>Client Quell Requests</div>
+          <div style={{fontSize:'1.25rem', fontWeight:'bolder'}}>Client Quell Requests</div>    
+          <div style={{fontSize:'.75rem'}}>Total Client Requests: {clientRequests.length}</div>
           <div id="network-page-container">
             <div id="network-request-table">
-              <NetworkRequestTable clientRequests={clientRequests}/>
-              {/* <TableTest /> */}
+              <NetworkRequestTable clientRequests={clientRequests} setClickedRowData={setClickedRowData} setActiveRow={setActiveRow} activeRow={activeRow}/>
             </div>
             <div id="network-request-metrics">
-              <Metrics 
-                fetchTime={clientRequests[clientRequests.length - 1].time.toFixed(2)}
-                fetchTimeInt={clientRequests.map(request => request.time)}
-              />
+              {activeRow > -1 ? 
+                <div id="headerBox"><RequestDetails clickedRowData={clickedRowData} /></div>:
+                <Metrics 
+                  fetchTime={clientRequests[clientRequests.length - 1].time.toFixed(2)}
+                  fetchTimeInt={clientRequests.map(request => request.time)}
+                />
+              }
             </div>
-          </div>
+          </div> 
         </React.Fragment>
         )
 };
 
-const NetworkRequest = (props) => {
-
-  const { index, req } = props;
-
+const RequestDetails = ({ clickedRowData } = props) => {
   return (
-    <details>
-      <summary>{index + 1}. {req.request.url}</summary>
-      <p>Test</p>
-    </details>
+    <>
+      <h3>Request Headers</h3>
+      {clickedRowData.request.headers.map((header, index) => <p key={`req-header-${index}`}><b>{header.name}</b>: {header.value}</p>)}
+      <hr />
+      <h5>Response Headers</h5>
+      {clickedRowData.response.headers.map((header, index) => <p key={`res-header-${index}`}><b>{header.name}</b>: {header.value}</p>)}
+    </>
   )
-
+  
 }
 
-const NetworkRequestTable = ({ clientRequests } = props) => {
+const NetworkRequestTable = ({ clientRequests, setClickedRowData, setActiveRow, activeRow } = props) => {
+  const handleRowClick = (cell) => {
+    // const { request.headers, response.headers } = cell.row.original;
+    setClickedRowData(cell.row.original);
+  }
   
   const columns = useMemo(
     () => [
@@ -93,15 +99,14 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
         headerGroups,
         rows,
         prepareRow
-      } = useTable({ columns, data })
+      } = useTable({columns, data })
 
   return (
     <>
-    <div style={{fontSize:'.75rem'}}>Total Client Requests: {clientRequests.length}</div>
     {/* <div>
      {clientRequests.map((req, index) => <NetworkRequest key={index} req={req} index={index} />)}
    </div> */}
-
+    <div id="dataTable_container">
     <table {...getTableProps()}>
       <thead>
         {headerGroups.map(headerGroup => (
@@ -122,8 +127,14 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
               {row.cells.map(cell => {
                 return (
                   <td 
+                    style={activeRow===cell.row.id ? {backgroundColor:'red'} : {}}
                     {...cell.getCellProps()}
-                    onClick={() => console.log(`row clicked! row data: `, cell.row.original)}
+                    onClick={()=> {
+                      console.log(cell.row.id);
+                      if (activeRow !== cell.row.id) setActiveRow(cell.row.id);
+                      else (setActiveRow(-1));
+                      handleRowClick(cell);
+                    }}
                   >
                     {cell.render('Cell')}
                   </td>
@@ -134,6 +145,7 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
         })}
       </tbody>
     </table>
+    </div>
 
 
    </>
