@@ -21,7 +21,7 @@ const Metrics = (props) => {
       <div id="speed-graph">
         <h3>Speed Graph:</h3>
         <Trend
-          // height = {200}
+          height = {120}
           width={190}
           className="trend"
           data={fetchTimeInt}

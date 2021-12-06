@@ -12,7 +12,7 @@ const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
 
   return(
         <React.Fragment>
-          <h2>Client Quell Requests</h2>
+          <div style={{fontSize:'1.25rem', fontWeight:'bolder'}}>Client Quell Requests</div>
           <div id="network-page-container">
             <div id="network-request-table">
               <NetworkRequestTable clientRequests={clientRequests}/>
@@ -88,7 +88,7 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
 
   return (
     <>
-    <h3>Total Client Requests: {clientRequests.length}</h3>
+    <div style={{fontSize:'.75rem'}}>Total Client Requests: {clientRequests.length}</div>
     {/* <div>
      {clientRequests.map((req, index) => <NetworkRequest key={index} req={req} index={index} />)}
    </div> */}
