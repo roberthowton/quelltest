@@ -5,7 +5,7 @@ const data = [
       "stack": {
         "callFrames": [
           {
-            "functionName": "_callee$",
+            "functionName": "_callee$", 
             "scriptId": "878",
             "url": "webpack://quelltest/./quell/quell-client/src/Quellify.js?",
             "lineNumber": 315,

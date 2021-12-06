@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as fs from 'fs';
 // Components for extension
-import Client from './Input/Client';
+import Client from './Components/Client';
 import Output from './Components/Output';
 import Server from './Input/Server';
 import Metrics from './Components/Metrics';
@@ -32,7 +32,26 @@ const App = () => {
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
   const [clientRequests, addClientRequests] = useState(data);
   // changes tab - defaults to query
-  const [tabName, setActiveTab] = useState<string>('query');
+  const [tabName, setActiveTab] = useState<string>('network');
+
+  // COMMENT OUT IF WORKING FROM DEV SERVER
+  useEffect(() => {
+    chrome.devtools.network.onRequestFinished.addListener(request => {
+      if (request.request.url === `${clientAddress}${graphQLRoute.toLowerCase()}`) {
+        const newGQLRequest = request;
+        newGQLRequest.getContent().then(data => console.log(data)); 
+        // .then(([content, mimeType]) => {
+        //     console.log('content: ', content);
+        //     console.log('mime type: ', mimeType);
+        //   })
+          // .then(data => {
+          //   console.log(data.data)
+          //   request.responseData = data.data    
+          //   addClientRequests(prev => prev.concat([request]));
+          // })
+      }
+    });
+  }, []);
 
   const handleTabChange = (clickedTab:string) => {
     setActiveTab(clickedTab);
@@ -106,12 +125,13 @@ const App = () => {
           onClick={() => handleTabChange('settings')}>
           Settings
         </button>
+
       </div>
 
       {tabName === 'query' && 
         <div className="queryTab">
           <div id='queryLeft'>
-            <SplitPane style={{maxWidth:'75%'}} split="vertical" minSize={80} defaultSize={300}>
+            <SplitPane style={{maxWidth:'75%'}} split="vertical" minSize={200} defaultSize={400}>
                 <div className='queryInput resizable'>
                   <Editor
                     clientAddress={clientAddress}
@@ -131,7 +151,7 @@ const App = () => {
                 </div> 
             </SplitPane>
           </div>
-          <div id='metricsOutput'>
+          <div id='metricsOutput' style={{maxHeight:'100px'}}>
             <Metrics
               fetchTime={queryResponseTime[queryResponseTime.length - 1]}
               cacheStatus={'Yes'}
