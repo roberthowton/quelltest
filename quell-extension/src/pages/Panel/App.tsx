@@ -117,74 +117,76 @@ const App = () => {
         </button>
       </div>
 
-      {tabName === 'query' && 
-        <div className="queryTab">
-          <div id='queryLeft'>
-            <SplitPane style={{maxWidth:'75%'}} split="vertical" minSize={200} defaultSize={400}>
-                <div className='queryInput resizable'>
-                  <Editor
-                    clientAddress={clientAddress}
-                    serverAddress={serverAddress}
-                    graphQLRoute={graphQLRoute}
-                    queryString={queryString}
-                    setQueryString={setQueryString}
-                    setResults={setResults}
-                    schema={schema}
-                    logNewTime={logNewTime}
-                    clearCacheRoute={clearCacheRoute}
-                  />
-                </div>
-              
-                <div className='queryResult resizable'>
-                  <Output results={results} />
-                </div> 
-            </SplitPane>
+      <div className='extensionTabs'>
+        {tabName === 'query' && 
+          <div className="queryTab">
+            <div id='queryLeft'>
+              <SplitPane style={{maxWidth:'75%'}} split="vertical" minSize={300} defaultSize={400}>
+                  <div className='queryInput resizable'>
+                    <Editor
+                      clientAddress={clientAddress}
+                      serverAddress={serverAddress}
+                      graphQLRoute={graphQLRoute}
+                      queryString={queryString}
+                      setQueryString={setQueryString}
+                      setResults={setResults}
+                      schema={schema}
+                      logNewTime={logNewTime}
+                      clearCacheRoute={clearCacheRoute}
+                    />
+                  </div>
+                
+                  <div className='queryResult resizable'>
+                    <Output results={results} />
+                  </div> 
+              </SplitPane>
+            </div>
+            <div id='metricsOutput' style={{maxHeight:'100px'}}>
+              <Metrics
+                fetchTime={queryResponseTime[queryResponseTime.length - 1]}
+                cacheStatus={'Yes'}
+                cacheClearStatus={'No'}
+                fetchTimeInt={queryResponseTime}
+              />
+            </div>
           </div>
-          <div id='metricsOutput' style={{maxHeight:'100px'}}>
-            <Metrics
-              fetchTime={queryResponseTime[queryResponseTime.length - 1]}
-              cacheStatus={'Yes'}
-              cacheClearStatus={'No'}
-              fetchTimeInt={queryResponseTime}
+        }
+          
+        {tabName === 'network' && 
+          <div className="networkTab">
+            <Network
+              graphQLRoute={graphQLRoute}
+              clientAddress={clientAddress}
+              clientRequests={clientRequests}
             />
           </div>
-        </div>
-      }
-        
-      {tabName === 'network' && 
-        <div className="networkTab">
-          <Network
-            graphQLRoute={graphQLRoute}
-            clientAddress={clientAddress}
-            clientRequests={clientRequests}
-          />
-        </div>
-      }
+        }
 
-      {tabName === 'cache' && 
-        <div className="cacheTab">
-          <div>cache</div>
-        </div>
-      }
+        {tabName === 'cache' && 
+          <div className="cacheTab">
+            <div>cache</div>
+          </div>
+        }
 
-      {tabName === 'settings' &&  
-        <div className="settingsTab">
-          <Settings 
-            graphQLRoute={graphQLRoute}
-            setGraphQLRoute={setGraphQLRoute}
-            clientAddress={clientAddress}
-            setClientAddress={setClientAddress}
-            serverAddress={serverAddress}
-            setServerAddress={setServerAddress}
-            redisAddress={redisAddress}
-            setRedisAddress={setRedisAddress}
-            schema={schema}
-            setSchema={setSchema}
-            clearCacheRoute={clearCacheRoute}
-            setClearCacheRoute={setClearCacheRoute}
-          />
-        </div>
-      }
+        {tabName === 'settings' &&  
+          <div className="settingsTab">
+            <Settings 
+              graphQLRoute={graphQLRoute}
+              setGraphQLRoute={setGraphQLRoute}
+              clientAddress={clientAddress}
+              setClientAddress={setClientAddress}
+              serverAddress={serverAddress}
+              setServerAddress={setServerAddress}
+              redisAddress={redisAddress}
+              setRedisAddress={setRedisAddress}
+              schema={schema}
+              setSchema={setSchema}
+              clearCacheRoute={clearCacheRoute}
+              setClearCacheRoute={setClearCacheRoute}
+            />
+          </div>
+        }
+      </div>
 
     </div>
   );
