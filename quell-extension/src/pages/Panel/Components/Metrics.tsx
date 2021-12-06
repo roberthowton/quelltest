@@ -12,7 +12,7 @@ const Metrics = (props) => {
 
   return (
     <div id="metrics-container">
-      <h3>Metrics:</h3>
+      <div style={{fontSize:'1.75rem'}}>Metrics:</div>
       <div id="speed-metrics">
         <div>Latest query/mutation time:</div>
         <div style={{fontSize:'2em'}}>{fetchTime ? fetchTime + " ms" :" - ms"}</div>
