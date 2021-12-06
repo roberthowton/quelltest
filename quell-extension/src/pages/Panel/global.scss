@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
 
-http {
-  background-color: #2a2a2a;
-}
-
 .panel {
   font-size: small;
   display: flex;
@@ -48,24 +44,18 @@ http {
   grid-template-columns: 50% 50%; 
 }
 
-#editor {
-  border: 1px solid rgb(104, 107, 112);
-}
-
 .CodeMirror {
   border: 1px solid rgb(85, 84, 84);
 }
 
 .query_input .CodeMirror {
-  height: 300px;
+  height: 285px;
   min-width: 400px;
   width: calc(100% - 0px);
 }
 
 .query_output .CodeMirror {
   height: 370px;
-  width:400px;
-  // max-height: 370px;
 }
 
 #settings_form {
@@ -90,6 +80,7 @@ http {
   background-color: #222222;
   border-width: 0 0 2px;
   border-color:rgb(104, 107, 112);
+
 }
 
 .navbutton {
@@ -98,9 +89,10 @@ http {
   border: none;
   font-weight: bold;
   margin-left: 10px;
+
 }
 
-.navbutton:hover {
+button:hover {
   background-color: #444;
 }
 
@@ -116,15 +108,15 @@ http {
   grid-gap: 20px;
 }
 
-.metricsContainer {
-  max-height: 200px;
+#metrics-container {
+  max-height: 100px;
 }
 
 .editorButtons {
   background-color: #222222;
   border: none;
   color:#999;
-  padding: 3px;
+  padding: 3px 15px 3px 15px;
 }
 
 .settingsTab {
@@ -190,10 +182,6 @@ th {
   max-height: 1rem;
 }
 
-td {
-
-}
-
 .Resizer {
   background: #000;
   opacity: 0.2;
@@ -227,6 +215,7 @@ td {
 
 .Resizer.vertical {
   width: 11px;
+  height: 300px;
   margin: 0 -5px;
   border-left: 5px solid rgba(255, 255, 255, 0);
   border-right: 5px solid rgba(255, 255, 255, 0);

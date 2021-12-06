@@ -4,15 +4,24 @@ import beautify from 'json-beautify';
 import Metrics from './Metrics';
 
 const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
-  // useEffect(() => {
-  //   console.log('CRs: ', clientRequests)
+  const [clickedRowData, setClickedRowData] = useState({})
+
+  // const handleRowClick = () => {
+  //   const {request.headers, response.headers} = cell.row.original
+
+  //   setClickedRowData(cell.row.original);
+
+  // }
+
+
+  useEffect(() => {
+    console.log('CRs: ', clientRequests)
      
-  //   console.log('requests: ', requests)
-  // }, [clientRequests]);
+  }, [clientRequests]);
 
   return(
         <React.Fragment>
-          <h2>Client Quell Requests</h2>
+          <div style={{fontSize:'1.25rem', fontWeight:'bolder'}}>Client Quell Requests</div>
           <div id="network-page-container">
             <div id="network-request-table">
               <NetworkRequestTable clientRequests={clientRequests}/>
@@ -88,7 +97,7 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
 
   return (
     <>
-    <h3>Total Client Requests: {clientRequests.length}</h3>
+    <div style={{fontSize:'.75rem'}}>Total Client Requests: {clientRequests.length}</div>
     {/* <div>
      {clientRequests.map((req, index) => <NetworkRequest key={index} req={req} index={index} />)}
    </div> */}
@@ -112,7 +121,10 @@ const NetworkRequestTable = ({ clientRequests } = props) => {
             <tr {...row.getRowProps()}>
               {row.cells.map(cell => {
                 return (
-                  <td {...cell.getCellProps()}>
+                  <td 
+                    {...cell.getCellProps()}
+                    onClick={() => console.log(`row clicked! row data: `, cell.row.original)}
+                  >
                     {cell.render('Cell')}
                   </td>
                 )
