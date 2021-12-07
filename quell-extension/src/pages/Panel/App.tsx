@@ -3,7 +3,7 @@ import * as fs from 'fs';
 // Components for extension
 import Client from './Input/Client';
 import Output from './Components/Output';
-import Server from './Input/Server';
+import CacheTable from './Components/CacheTable';
 import Metrics from './Components/Metrics';
 import Management from './Management/Management';
 import Editor from './Components/Editor';
@@ -32,7 +32,7 @@ const App = () => {
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
   const [clientRequests, addClientRequests] = useState(data);
   // changes tab - defaults to query
-  const [tabName, setActiveTab] = useState<string>('network');
+  const [tabName, setActiveTab] = useState<string>('cache');
 
   // COMMENT OUT IF WORKING FROM DEV SERVER
   // useEffect(() => {
@@ -164,7 +164,7 @@ const App = () => {
 
         {tabName === 'cache' && 
           <div className="cacheTab">
-            <div>cache</div>
+            <CacheTable />
           </div>
         }
 
