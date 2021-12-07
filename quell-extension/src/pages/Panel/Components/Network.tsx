@@ -23,32 +23,69 @@ const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
           <div style={{fontSize:'1.25rem', fontWeight:'bolder'}}>Client Quell Requests</div>    
           <div style={{fontSize:'.75rem'}}>Total Client Requests: {clientRequests.length}</div>
           <div id="network-page-container">
+            <SplitPane style={{maxWidth:'100%'}} split="vertical" minSize={450} defaultSize={800}>
             <div id="network-request-table">
               <NetworkRequestTable clientRequests={clientRequests} setClickedRowData={setClickedRowData} setActiveRow={setActiveRow} activeRow={activeRow}/>
             </div>
-            <div id="network-request-metrics">
               {activeRow > -1 ? 
-                <div id="headerBox"><RequestDetails clickedRowData={clickedRowData} /></div>:
-                <Metrics 
-                  fetchTime={clientRequests[clientRequests.length - 1].time.toFixed(2)}
-                  fetchTimeInt={clientRequests.map(request => request.time)}
-                />
+                <RequestDetails clickedRowData={clickedRowData} /> :
+                <div id="network-request-metrics" style={{marginTop:'-9px', marginLeft:'20px'}}>
+                  <Metrics 
+                    fetchTime={clientRequests[clientRequests.length - 1].time.toFixed(2)}
+                    fetchTimeInt={clientRequests.map(request => request.time)}
+                  />
+                </div> 
               }
-            </div>
+            </SplitPane>
           </div> 
         </React.Fragment>
         )
 };
 
 const RequestDetails = ({ clickedRowData } = props) => {
+  const [activeTab, setActiveTab] = useState<string>('request');
+  const activeStyle = {
+    backgroundColor:'#444',
+    color:'#bbb'
+  }
   return (
-    <>
-      <h3>Request Headers</h3>
-      {clickedRowData.request.headers.map((header, index) => <p key={`req-header-${index}`}><b>{header.name}</b>: {header.value}</p>)}
-      <hr />
-      <h5>Response Headers</h5>
-      {clickedRowData.response.headers.map((header, index) => <p key={`res-header-${index}`}><b>{header.name}</b>: {header.value}</p>)}
-    </>
+    <div id='queryExtras'>
+      <div className="networkNavBar">
+        <button 
+          className='networkNavbutton' 
+          style={activeTab==='request' ? activeStyle : {}}
+          onClick={() => setActiveTab('request')}>
+          Request Headers
+        </button>
+        
+        <button 
+          className='networkNavbutton'
+          style={activeTab==='response' ? activeStyle: {}}
+          onClick={() => setActiveTab('response')}>
+            Response Headers
+        </button>
+        
+        <button 
+          className='networkNavbutton'
+          style={activeTab==='table' ? activeStyle: {}}
+          onClick={() => setActiveTab('table')}>
+          Table
+        </button>
+      </div>
+      <div className='headersBox'>
+        {activeTab === 'request' && 
+          <><div className='networkTitle'>Request Headers:</div>
+          {clickedRowData.request.headers.map((header, index) => <p key={`req-header-${index}`}><b>{header.name}</b>: {header.value}</p>)}</>
+        }
+        {activeTab === 'response' && 
+          <><div className='networkTitle'>Response Headers:</div>
+          {clickedRowData.response.headers.map((header, index) => <p key={`res-header-${index}`}><b>{header.name}</b>: {header.value}</p>)}</>
+        }
+        {activeTab === 'table' &&
+          <></>
+        }
+      </div>
+    </div>
   )
   
 }
@@ -127,7 +164,7 @@ const NetworkRequestTable = ({ clientRequests, setClickedRowData, setActiveRow, 
               {row.cells.map(cell => {
                 return (
                   <td 
-                    style={activeRow===cell.row.id ? {backgroundColor:'red'} : {}}
+                    style={activeRow===cell.row.id ? {backgroundColor:'#444'} : {}}
                     {...cell.getCellProps()}
                     onClick={()=> {
                       console.log(cell.row.id);
@@ -136,7 +173,7 @@ const NetworkRequestTable = ({ clientRequests, setClickedRowData, setActiveRow, 
                       handleRowClick(cell);
                     }}
                   >
-                    {cell.render('Cell')}
+                    <center>{cell.render('Cell')}</center>
                   </td>
                 )
               })}
