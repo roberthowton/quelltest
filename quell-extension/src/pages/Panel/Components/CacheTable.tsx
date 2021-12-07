@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect } from 'react';
-import { useTable } from 'react-table';
 
 const CacheTable = () => {
   //use state to store data from redis server
@@ -16,7 +15,7 @@ const CacheTable = () => {
   const RedisStatTable = ( {redisStats} = props) => {
     const output = [];
     const titles = Object.keys(redisStats);
-    // Generates title bar
+    // Generates title bar by mapping keys of each object pair
     output.push(
       <div className="statsColumns">{
         titles.map((el, i) => 
@@ -28,21 +27,33 @@ const CacheTable = () => {
       }</div>
     );
     // Generates the rest of the table
+
+    //generating cell pairs for the sub-table
+    const getCellPairs = (title) => {
+      const cellPairs = []
+      for(let i in redisStats[title]){
+        cellPairs.push(
+          <div className='subStats'>
+            <div key={`${title}.name`} style={{border:'1px solid #555', padding:'0 12px 0 10px'}}>{redisStats[title][i].name}</div>
+            <div key={`${title}.value`} style={{border:'1px solid #555', padding:'0 12px 0 10px'}}>{redisStats[title][i].value}</div>
+          </div>
+        )
+      }
+      return cellPairs;
+    }
+
+    // combines each group of sub-tables under each Title
     output.push(
-      <div className="statsColumns">{
-        titles.map(_title => {
-          const subTables = []
-          for(let i in redisStats[_title]){
-            subTables.push(
-              <div className='subStats'>
-                <div key={`${_title}.name`} style={{border:'1px solid #555', padding:'0 10px 0 10px'}}>{redisStats[_title][i].name}</div>
-                <div key={`${_title}.value`} style={{border:'1px solid #555', padding:'0 10px 0 10px'}}>{redisStats[_title][i].value}</div>
-              </div>
-            );
-          }
-          return subTables;
+      <div className="tableColumns">{
+        titles.map(title => {
+          return (
+            <div className='subTables'>
+              {getCellPairs(title)}
+            </div>
+          )
         })
       }</div>)
+
     return output;
   }
  
