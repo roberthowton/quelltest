@@ -32,7 +32,7 @@ const App = () => {
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
   const [clientRequests, addClientRequests] = useState(data);
   // changes tab - defaults to query
-  const [tabName, setActiveTab] = useState<string>('network');
+  const [tabName, setActiveTab] = useState<string>('cache');
 
   // COMMENT OUT IF WORKING FROM DEV SERVER
   // useEffect(() => {

@@ -12,38 +12,68 @@ const CacheTable = () => {
      .then(data => setRedisStats(data))
      .catch(error => console.log('error fetching from redis', error));
   },[])
-
-  console.log('this is redis stats', redisStats);
   
-  const columns = useMemo(() => [
+  const RedisStatTable = ( {redisStats} = props) => {
+    const output = [];
+    const titles = Object.keys(redisStats);
+    // Generates title bar
+    output.push(
+      <div className="statsColumns">{
+        titles.map((el, i) => 
+          <div key={i} 
+            className='titleElements'>
+            {el[0].toUpperCase() + el.slice(1)}
+          </div>
+        )
+      }</div>
+    );
+    output.push(
+      <div className="statsColumns">{
+        titles.map(el => {
+          const subTables = []
+          for(let i in redisStats[el]){
+            subTables.push(
+              <div className='subStats'>
+                <div style={{border:'1px solid #999', padding:'0 10px 0 10px'}}>{redisStats[el][i].name}</div>
+                <div style={{border:'1px solid #999', padding:'0 10px 0 10px'}}>{redisStats[el][i].value}</div>
+              </div>
+            );
+          }
+          return subTables;
+        })
+      }</div>)
+    return output;
+  }
+
+
+/*   const columns = useMemo(() => [
     {
       id: 'server',
       Header: 'Server',
-      accessor: row => redisStats.server
-      // columns: [{id: 'server-name', accessor: row => row.server[0].name}, {id: 'server-value', accessor: row => row.server[0].value }]
-    },
-    {
-    id: 'client-col',
-    Header: 'Client',
-    accessor: row => redisStats.client
-    // columns: [{},{}]
-  },
-  {
-    id: 'mem-col',
-    Header: 'Memory',
-    accessor: row => redisStats.memory
-    // columns: [{},{}]
-  },
-  {
-    id: 'stat-col',
-    Header: 'Statistics',
-    accessor: row => redisStats.stats
-    // columns: [{},{}]
-  }
-  ], [])
+      // accessor: row => row.server.map(stat => stat.name)
+      columns: [{id: 'server-name', Header: 'Property', accessor: row => row.name)}, {id: 'server-value', Header: 'Value', accessor: row => row.value }]
+    }, */
+  //   {
+  //   id: 'client-col',
+  //   Header: 'Client',
+  //   accessor: row => redisStats.client[0]
+  //   // columns: [{},{}]
+  // },fs
+  // {
+  //   id: 'mem-col',
+  //   Header: 'Memory',
+  //   accessor: row => redisStats.memory[0]
+  //   // columns: [{},{}]
+  // },
+  // {
+  //   id: 'stat-col',
+  //   Header: 'Statistics',
+  //   accessor: row => redisStats.stats[0]
+  //   // columns: [{},{}]
+  // }
+  //], [])
 
-
-  const data = useMemo(
+/*   const data = useMemo(
     () => [...redisStats], []);
   console.log(data);
  
@@ -53,11 +83,15 @@ const CacheTable = () => {
     headerGroups,
     rows,
     prepareRow
-  } = useTable({ columns, data })
+  } = useTable({ columns, data }) */
   
   return (
+    
     <>
-    <p>Redis Database</p>
+    <div>
+      <div><RedisStatTable redisStats={redisStats}/></div>
+    </div>
+   {/*  <p>Redis Database</p>
     <table {...getTableProps()}>
       <thead>
         {headerGroups.map(headerGroup => (
@@ -86,7 +120,7 @@ const CacheTable = () => {
           )
         })}
       </tbody>
-    </table>
+    </table> */}
    </>
 
   )
