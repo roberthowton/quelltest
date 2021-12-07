@@ -10,8 +10,6 @@ const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
   const [activeRow, setActiveRow] = useState<number>(-1);
  
 
-
-
   useEffect(() => {
     console.log('CRs: ', clientRequests)
     console.log('Clicked Row Data: ', clickedRowData)
@@ -54,7 +52,7 @@ const RequestDetails = ({ clickedRowData } = props) => {
         <button 
           className='networkNavbutton' 
           style={activeTab==='request' ? activeStyle : {}}
-          onClick={() => setActiveTab('request')}>
+          onClick={() => setActiveTab('request')}>30
           Request Headers
         </button>
         

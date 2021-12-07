@@ -27,15 +27,16 @@ const CacheTable = () => {
         )
       }</div>
     );
+    // Generates the rest of the table
     output.push(
       <div className="statsColumns">{
-        titles.map(el => {
+        titles.map(_title => {
           const subTables = []
-          for(let i in redisStats[el]){
+          for(let i in redisStats[_title]){
             subTables.push(
               <div className='subStats'>
-                <div style={{border:'1px solid #999', padding:'0 10px 0 10px'}}>{redisStats[el][i].name}</div>
-                <div style={{border:'1px solid #999', padding:'0 10px 0 10px'}}>{redisStats[el][i].value}</div>
+                <div key={`${_title}.name`} style={{border:'1px solid #555', padding:'0 10px 0 10px'}}>{redisStats[_title][i].name}</div>
+                <div key={`${_title}.value`} style={{border:'1px solid #555', padding:'0 10px 0 10px'}}>{redisStats[_title][i].value}</div>
               </div>
             );
           }
@@ -44,85 +45,11 @@ const CacheTable = () => {
       }</div>)
     return output;
   }
-
-
-/*   const columns = useMemo(() => [
-    {
-      id: 'server',
-      Header: 'Server',
-      // accessor: row => row.server.map(stat => stat.name)
-      columns: [{id: 'server-name', Header: 'Property', accessor: row => row.name)}, {id: 'server-value', Header: 'Value', accessor: row => row.value }]
-    }, */
-  //   {
-  //   id: 'client-col',
-  //   Header: 'Client',
-  //   accessor: row => redisStats.client[0]
-  //   // columns: [{},{}]
-  // },fs
-  // {
-  //   id: 'mem-col',
-  //   Header: 'Memory',
-  //   accessor: row => redisStats.memory[0]
-  //   // columns: [{},{}]
-  // },
-  // {
-  //   id: 'stat-col',
-  //   Header: 'Statistics',
-  //   accessor: row => redisStats.stats[0]
-  //   // columns: [{},{}]
-  // }
-  //], [])
-
-/*   const data = useMemo(
-    () => [...redisStats], []);
-  console.log(data);
  
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = useTable({ columns, data }) */
-  
   return (
-    
-    <>
     <div>
-      <div><RedisStatTable redisStats={redisStats}/></div>
+      <RedisStatTable redisStats={redisStats}/>
     </div>
-   {/*  <p>Redis Database</p>
-    <table {...getTableProps()}>
-      <thead>
-        {headerGroups.map(headerGroup => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map(column => (
-              <th {...column.getHeaderProps()}>
-                {column.render('Header')}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map(row => {
-          prepareRow(row)
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map(cell => {
-                return (
-                  <td {...cell.getCellProps()}>
-                    {cell.render('Cell')}
-                  </td>
-                )
-              })}
-            </tr>
-          )
-        })}
-      </tbody>
-    </table> */}
-   </>
-
   )
 }
 export default CacheTable
