@@ -38,15 +38,19 @@ const App = () => {
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
   const [clientRequests, addClientRequests] = useState([]);
   // changes tab - defaults to query
-  const [tabName, setActiveTab] = useState<string>('network');
+  const [tabName, setActiveTab] = useState<string>('query');
 
   // COMMENT OUT IF WORKING FROM DEV SERVER
   useEffect(() => {
-    chrome.devtools.network.onRequestFinished.addListener(function (request) {
+    chrome.devtools.network.onRequestFinished.addListener(request => {
       if (
         request.request.url === `${clientAddress}${graphQLRoute.toLowerCase()}`
       ) {
-        addClientRequests((prev) => prev.concat([request]));
+        request.getContent(body => {
+          const responseData = JSON.parse(body);
+          request.responseData = responseData;
+          addClientRequests((prev) => prev.concat([request]));
+        })
       }
     });
   }, []);
