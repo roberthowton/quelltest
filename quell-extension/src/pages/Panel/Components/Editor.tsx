@@ -9,8 +9,6 @@ import 'codemirror/addon/hint/show-hint';
 import 'codemirror-graphql/lint';
 import 'codemirror-graphql/hint';
 import 'codemirror-graphql/mode';
-import { validateSchema } from 'webpack';
-import Button from '@mui/material/Button';
 
 const Editor = (props) => {
   const [defaultText, setText] = useState('# Enter GraphQL query here\n');

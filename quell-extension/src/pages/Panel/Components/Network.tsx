@@ -21,7 +21,7 @@ const Network = ({ graphQLRoute, clientAddress, clientRequests } = props) => {
           <div style={{fontSize:'1.25rem', fontWeight:'bolder'}}>Client Quell Requests</div>    
           <div style={{fontSize:'.75rem'}}>Total Client Requests: {clientRequests.length}</div>
           <div id="network-page-container">
-            <SplitPane style={{maxWidth:'100%'}} split="vertical" minSize={450} defaultSize={800}>
+            <SplitPane style={{maxWidth:'100%'}} split="vertical" minSize={450} defaultSize={1000}>
             <div id="network-request-table">
               <NetworkRequestTable clientRequests={clientRequests} setClickedRowData={setClickedRowData} setActiveRow={setActiveRow} activeRow={activeRow}/>
             </div>
