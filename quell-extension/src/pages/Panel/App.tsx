@@ -38,11 +38,7 @@ const App = () => {
   const [queryResponseTime, setQueryResponseTime] = useState<number[]>([]);
   const [clientRequests, addClientRequests] = useState([]);
   // changes tab - defaults to query
-<<<<<<< HEAD
   const [tabName, setActiveTab] = useState<string>('query');
-=======
-  const [tabName, setActiveTab] = useState<string>('cache');
->>>>>>> main
 
   // COMMENT OUT IF WORKING FROM DEV SERVER
   useEffect(() => {
