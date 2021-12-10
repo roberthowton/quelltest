@@ -1,3 +1,5 @@
 [submodule "Quell"]
 	path = Quell
 	url = https://github.com/oslabs-beta/Quell.git
+[submodule "quell"]
+	branch = dev

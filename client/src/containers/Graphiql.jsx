@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import GraphiQL from 'graphiql';
 import 'graphiql/graphiql.min.css';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
-import { Quellify, lokiClientCache } from '../../../quell/quell-client/src/Quellify';
+import { Quellify, lokiClientCache } from '../../../Quell/quell-client/src/Quellify';
 import { getCounters } from '../../../quell/quell-client/src/helpers/normalizeForLokiCache';
 import { data } from 'browserslist';
 
