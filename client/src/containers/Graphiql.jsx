@@ -3,7 +3,7 @@ import GraphiQL from 'graphiql';
 import 'graphiql/graphiql.min.css';
 import { createGraphiQLFetcher } from '@graphiql/toolkit';
 import { Quellify, lokiClientCache } from '../../../Quell/quell-client/src/Quellify';
-import { getCounters } from '../../../quell/quell-client/src/helpers/normalizeForLokiCache';
+import { getCounters } from '../../../Quell/quell-client/src/helpers/normalizeForLokiCache';
 import { data } from 'browserslist';
 
 
